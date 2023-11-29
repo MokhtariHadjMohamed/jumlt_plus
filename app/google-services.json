@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "818985741702",
+    "project_id": "oraniagro",
+    "storage_bucket": "oraniagro.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:818985741702:android:5ef58e74c96fc4d08e1007",
+        "android_client_info": {
+          "package_name": "com.hadjmohamed.oran_agro"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKnP7p6ZHjdV8SNRvzM0ksze5vGmuEA5c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
