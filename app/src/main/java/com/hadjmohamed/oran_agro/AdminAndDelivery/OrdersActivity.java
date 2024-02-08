@@ -1,15 +1,14 @@
-package com.hadjmohamed.oran_agro;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+package com.hadjmohamed.oran_agro.AdminAndDelivery;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -18,37 +17,36 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.hadjmohamed.oran_agro.Order;
+import com.hadjmohamed.oran_agro.R;
+import com.hadjmohamed.oran_agro.RecViewInterface;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomePageDeliveryBoyActivity extends AppCompatActivity implements RecViewInterface{
+public class OrdersActivity extends AppCompatActivity implements RecViewInterface {
 
-    private RecyclerView recyclerView;
     private FirebaseFirestore firestore;
     private List<Order> productOrderList;
-    private AdapterRecOrdersDeliveryBoy adapterRecOrders;
     private ProgressDialog progressDialog;
-    private Button submit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_page_delivery_boy);
+        setContentView(R.layout.activity_orders_page_delivery_boy);
 
         // Navigation bar Bottom
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationPageDeliveryBoy);
-        bottomNavigationView.setSelectedItemId(R.id.homeNavigationPageDeliveryBoy);
+        bottomNavigationView.setSelectedItemId(R.id.placeNavigationPageDeliveryBoy);
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
             if (id == R.id.homeNavigationPageDeliveryBoy) {
+                startActivity(new Intent(OrdersActivity.this, HomePageAdminActivity.class));
                 return true;
             } else if (id == R.id.placeNavigationPageDeliveryBoy) {
-                startActivity(new Intent(HomePageDeliveryBoyActivity.this, OrdersPageDeliveryBoyActivity.class));
                 return true;
             } else if (id == R.id.accountNavigationPageDeliveryBoy) {
-                startActivity(new Intent(HomePageDeliveryBoyActivity.this, AccountPageDeliveryBoyActivity.class));
                 return true;
             } else {
                 return true;
@@ -61,22 +59,13 @@ public class HomePageDeliveryBoyActivity extends AppCompatActivity implements Re
         progressDialog.setMessage("Fetching data...");
         progressDialog.show();
 
-        // Recycler View
-        recyclerView = findViewById(R.id.recHomeDeliveryBoyActivity);
-        firestore = FirebaseFirestore.getInstance();
-        productOrderList = new ArrayList<>();
-        adapterRecOrders = new AdapterRecOrdersDeliveryBoy(getApplicationContext(),
-                productOrderList, this);
-
-        loadOrder();
-
+        uploadOrder();
     }
 
-    private void loadOrder(){
+    private void uploadOrder() {
         productOrderList.clear();
-        adapterRecOrders.notifyDataSetChanged();
         firestore.collection("Orders")
-                .whereEqualTo("orderSituation","في انتظار شحن")
+                .whereEqualTo("orderSituation", "تم شحن")
                 .orderBy("idOrder", Query.Direction.ASCENDING)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -92,24 +81,18 @@ public class HomePageDeliveryBoyActivity extends AppCompatActivity implements Re
                             Log.d("PRODUCTS", dc.toString());
                             productOrderList.add(dc.toObject(Order.class));
                         }
-                        adapterRecOrders.notifyDataSetChanged();
                         if (progressDialog.isShowing())
                             progressDialog.dismiss();
                     }
                 });
-
-        recyclerView.setLayoutManager(new
-                LinearLayoutManager(this,
-                LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(adapterRecOrders);
     }
 
     @Override
     public void onItemClick(String view, int position) {
-        Intent intent =
-                new Intent(HomePageDeliveryBoyActivity.this, OrderInfoPageDeliveryBoy.class);
+        Intent intent = new Intent(OrdersActivity.this, takenOrderDeliveryBoyActivity.class);
         intent.putExtra("orderId", productOrderList.get(position).getIdOrder());
+        intent.putExtra("clientId", productOrderList.get(position).getIdClient());
         startActivity(intent);
-    }
 
+    }
 }

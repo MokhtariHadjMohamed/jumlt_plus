@@ -1,4 +1,4 @@
-package com.hadjmohamed.oran_agro;
+package com.hadjmohamed.oran_agro.AdminAndDelivery;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -24,6 +24,11 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.hadjmohamed.oran_agro.AdapterRecOrders;
+import com.hadjmohamed.oran_agro.Order;
+import com.hadjmohamed.oran_agro.ProductOrder;
+import com.hadjmohamed.oran_agro.R;
+import com.hadjmohamed.oran_agro.RecViewInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -98,7 +103,7 @@ public class OrderInfoPageDeliveryBoy extends AppCompatActivity implements View.
                                     "productOrders", productOrderList
                             );
                     startActivity(new Intent(OrderInfoPageDeliveryBoy.this,
-                            HomePageDeliveryBoyActivity.class));
+                            HomePageAdminActivity.class));
                     finish();
                 }
             });
@@ -111,7 +116,7 @@ public class OrderInfoPageDeliveryBoy extends AppCompatActivity implements View.
             alertDialog = dialogBuilder.create();
             alertDialog.show();
         } else if (view == btnGoBack) {
-            startActivity(new Intent(OrderInfoPageDeliveryBoy.this, HomePageDeliveryBoyActivity.class));
+            startActivity(new Intent(OrderInfoPageDeliveryBoy.this, HomePageAdminActivity.class));
             finish();
         }
     }

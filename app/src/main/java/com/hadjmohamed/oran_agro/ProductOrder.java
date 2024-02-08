@@ -2,7 +2,7 @@ package com.hadjmohamed.oran_agro;
 
 public class ProductOrder {
     private String idOrder;
-    private int idProduct;
+    private String idProduct;
     private String idClient;
     private int quantity;
     private String orderSituation;
@@ -12,7 +12,7 @@ public class ProductOrder {
     public ProductOrder() {
     }
 
-    public ProductOrder(String idOrder, int idProduct, String idClient,
+    public ProductOrder(String idOrder, String idProduct, String idClient,
                         int quantity, String orderSituation,
                         String productName, int productPrice) {
         this.idOrder = idOrder;
@@ -32,11 +32,11 @@ public class ProductOrder {
         this.idOrder = idOrder;
     }
 
-    public int getIdProduct() {
+    public String getIdProduct() {
         return idProduct;
     }
 
-    public void setIdProduct(int idProduct) {
+    public void setIdProduct(String idProduct) {
         this.idProduct = idProduct;
     }
 

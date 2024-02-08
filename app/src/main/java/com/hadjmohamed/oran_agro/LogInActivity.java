@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +22,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.hadjmohamed.oran_agro.AdminAndDelivery.HomePageAdminActivity;
 
 public class LogInActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -30,8 +30,6 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     private TextView forgetPassword, register, errorPassOrEmail;
     private Button submit;
     private ProgressDialog progressDialog;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,8 +107,8 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                         if (user.getType().equals("user")) {
                             startActivity(new Intent(LogInActivity.this, HomePageActivity.class));
                             finish();
-                        } else if (user.getType().equals("deliveryBoy")) {
-                            startActivity(new Intent(LogInActivity.this, HomePageDeliveryBoyActivity.class));
+                        } else if (user.getType().equals("admin") || user.getType().equals("employee")) {
+                            startActivity(new Intent(LogInActivity.this, HomePageAdminActivity.class));
                             finish();
                         }
                         if (progressDialog.isShowing())

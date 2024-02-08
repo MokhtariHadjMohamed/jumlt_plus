@@ -1,4 +1,4 @@
-package com.hadjmohamed.oran_agro;
+package com.hadjmohamed.oran_agro.AdminAndDelivery;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -34,6 +34,12 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.hadjmohamed.oran_agro.AdapterRecOrders;
+import com.hadjmohamed.oran_agro.Order;
+import com.hadjmohamed.oran_agro.ProductOrder;
+import com.hadjmohamed.oran_agro.R;
+import com.hadjmohamed.oran_agro.RecViewInterface;
+import com.hadjmohamed.oran_agro.User;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -124,7 +130,7 @@ public class takenOrderDeliveryBoyActivity extends AppCompatActivity implements 
                                     "productOrders", productOrderList
                             );
                     startActivity(new Intent(takenOrderDeliveryBoyActivity.this,
-                            HomePageDeliveryBoyActivity.class));
+                            HomePageAdminActivity.class));
                     finish();
                 }
             });
@@ -138,7 +144,7 @@ public class takenOrderDeliveryBoyActivity extends AppCompatActivity implements 
             alertDialog.show();
         } else if (view == btnGoBack) {
             startActivity(new Intent(takenOrderDeliveryBoyActivity.this,
-                    OrdersPageDeliveryBoyActivity.class));
+                    OrdersActivity.class));
             finish();
         }else if (view == goBtn){
             getUser(getIntent().getStringExtra("clientId"), "Click");

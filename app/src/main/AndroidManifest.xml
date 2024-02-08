@@ -18,7 +18,31 @@
         android:theme="@style/Theme.Oran_Agro"
         tools:targetApi="31">
         <activity
-            android:name=".takenOrderDeliveryBoyActivity"
+            android:name=".AdminAndDelivery.AboutProductsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AdminAndDelivery.DeletedSalesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AdminAndDelivery.EmployeesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AdminAndDelivery.ExpensesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AdminAndDelivery.ClientsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AdminAndDelivery.WarehouseActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AdminAndDelivery.NewSaleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AdminAndDelivery.SalesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AdminAndDelivery.takenOrderDeliveryBoyActivity"
             android:exported="false" />
         <activity
             android:name=".ProductInSameCategoryActivity"
@@ -29,22 +53,22 @@
             android:value="@string/map_key" />
 
         <activity
-            android:name=".AccountInfoDeliveryBoyActivity"
+            android:name=".AdminAndDelivery.AccountInfoDeliveryBoyActivity"
             android:exported="false" />
         <activity
-            android:name=".LanguageDeliveryBoyAcitvity"
+            android:name=".AdminAndDelivery.LanguageDeliveryBoyAcitvity"
             android:exported="false" />
         <activity
-            android:name=".OrderInfoPageDeliveryBoy"
+            android:name=".AdminAndDelivery.OrderInfoPageDeliveryBoy"
             android:exported="false" />
         <activity
-            android:name=".AccountPageDeliveryBoyActivity"
+            android:name=".AdminAndDelivery.AccountPageDeliveryBoyActivity"
             android:exported="false" />
         <activity
-            android:name=".OrdersPageDeliveryBoyActivity"
+            android:name=".AdminAndDelivery.OrdersActivity"
             android:exported="false" />
         <activity
-            android:name=".HomePageDeliveryBoyActivity"
+            android:name=".AdminAndDelivery.HomePageAdminActivity"
             android:exported="false" />
         <activity
             android:name=".ForgetPasswordActivity"

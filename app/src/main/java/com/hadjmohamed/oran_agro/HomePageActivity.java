@@ -61,7 +61,8 @@ public class HomePageActivity extends AppCompatActivity implements AdapterView.O
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                Intent intent = new Intent(HomePageActivity.this, SearchPageActivity.class);
+                Intent intent = new Intent(HomePageActivity.this,
+                         SearchPageActivity.class);
                 intent.putExtra("search", s);
                 startActivity(intent);
                 return true;
@@ -83,16 +84,20 @@ public class HomePageActivity extends AppCompatActivity implements AdapterView.O
             if (id == R.id.homeNavigation) {
                 return true;
             } else if (id == R.id.searchNavigation) {
-                startActivity(new Intent(HomePageActivity.this, SearchPageActivity.class));
+                startActivity(new Intent(HomePageActivity.this,
+                        SearchPageActivity.class));
                 return true;
             } else if (id == R.id.accountNavigation) {
-                startActivity(new Intent(HomePageActivity.this, UserAccountActivity.class));
+                startActivity(new Intent(HomePageActivity.this,
+                        UserAccountActivity.class));
                 return true;
             } else if (id == R.id.categoryNavigation) {
-                startActivity(new Intent(HomePageActivity.this, CategoryPageActivity.class));
+                startActivity(new Intent(HomePageActivity.this,
+                        CategoryPageActivity.class));
                 return true;
             } else if (id == R.id.shoppingCartNavigation) {
-                startActivity(new Intent(HomePageActivity.this, ShoppingCartActivity.class));
+                startActivity(new Intent(HomePageActivity.this,
+                        ShoppingCartActivity.class));
                 return true;
             } else {
                 return true;
@@ -110,12 +115,11 @@ public class HomePageActivity extends AppCompatActivity implements AdapterView.O
         firestore = FirebaseFirestore.getInstance();
         gridAdapter = new GridAdapter(HomePageActivity.this, products);
 
-        getUser();
+        getProduct();
     }
 
-    private void getProduct(int IDCategorie) {
+    private void getProduct() {
         firestore.collection("Products")
-                .whereEqualTo("IDCategorie", IDCategorie)
                 .orderBy("idProduct", Query.Direction.ASCENDING)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
@@ -137,10 +141,8 @@ public class HomePageActivity extends AppCompatActivity implements AdapterView.O
                         }
                     }
                 });
-
         gridView.setAdapter(gridAdapter);
         gridView.setOnItemClickListener(this);
-
     }
 
     @Override
@@ -149,45 +151,5 @@ public class HomePageActivity extends AppCompatActivity implements AdapterView.O
         intent.putExtra("IdProduct", products.get(i).getIdProduct());
         Toast.makeText(this, products.get(i).getIdProduct() + "", Toast.LENGTH_SHORT).show();
         startActivity(intent);
-    }
-
-    private void categorySeparation(User user) {
-        firestore.collection("Category")
-                .whereEqualTo("code", user.getInvitation())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        for (DocumentSnapshot ds : task.getResult().getDocuments())
-                            getSubCategory(ds.toObject(Category.class).getIdCategory());
-                    }
-                });
-    }
-
-    private void getSubCategory(int idCategory){
-        firestore.collection("SubCategory")
-                .whereEqualTo("idCategory", idCategory)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        for (DocumentSnapshot ds : task.getResult().getDocuments())
-                            getProduct(ds.toObject(Category.class).getIdSubCategory());
-                    }
-                });
-    }
-
-    private void getUser() {
-        firestore.collection("Users")
-                .document(FirebaseAuth.getInstance()
-                        .getCurrentUser().getUid())
-                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (!task.isSuccessful())
-                            Log.e("Failed", "Failed");
-                        categorySeparation(task.getResult().toObject(User.class));
-                    }
-                });
     }
 }

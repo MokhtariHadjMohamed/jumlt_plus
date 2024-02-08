@@ -4,14 +4,15 @@ import android.net.Uri;
 
 public class Product {
 
-    private int idProduct, Quantite, PrixUnitaire, PrixCarton, IDCategorie;
+    private String idProduct;
+    private int Quantite, PrixUnitaire, PrixCarton, IDCategorie;
     private Uri image;
     private String NameProduct, description;
 
     public Product() {
     }
 
-    public Product(int idProduct, int quantite, int PrixUnitaire, int PrixCarton,
+    public Product(String idProduct, int quantite, int PrixUnitaire, int PrixCarton,
                    int IDCategorie, String NameProduct) {
         this.idProduct = idProduct;
         this.Quantite = quantite;
@@ -21,11 +22,11 @@ public class Product {
         this.NameProduct = NameProduct;
     }
 
-    public int getIdProduct() {
+    public String getIdProduct() {
         return idProduct;
     }
 
-    public void setIdProduct(int idProduct) {
+    public void setIdProduct(String idProduct) {
         this.idProduct = idProduct;
     }
 

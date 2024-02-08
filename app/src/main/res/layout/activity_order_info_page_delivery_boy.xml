@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".OrderInfoPageDeliveryBoy">
+    tools:context=".AdminAndDelivery.OrderInfoPageDeliveryBoy">
     <include
         android:id="@+id/include2"
         layout="@layout/tools_bar_back"

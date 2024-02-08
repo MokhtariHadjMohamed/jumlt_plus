@@ -83,8 +83,9 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
 
         // Firestore
         firestore = FirebaseFirestore.getInstance();
+        String idProduct = getIntent().getStringExtra("IdProduct");
         firestore.collection("Products")
-                .document(String.valueOf(getIntent().getIntExtra("IdProduct", 0)))
+                .document(idProduct)
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -92,6 +93,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                             Log.e("Failed", "Failed");
 
                         product = task.getResult().toObject(Product.class);
+                        Log.d("TEXT:", product.getNameProduct());
                         productName.setText(product.getNameProduct());
                         priceCarton.setText(product.getPrixCarton() + "");
                         priceCarton02.setText(product.getPrixCarton() + "");
