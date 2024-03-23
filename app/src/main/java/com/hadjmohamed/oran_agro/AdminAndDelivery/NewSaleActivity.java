@@ -12,7 +12,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.Filter;
@@ -21,9 +20,8 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.core.OrderBy;
-import com.google.firestore.v1.StructuredQuery;
 import com.hadjmohamed.oran_agro.AdapterRecProduct;
+import com.hadjmohamed.oran_agro.AdapterRecTableProduct;
 import com.hadjmohamed.oran_agro.Category;
 import com.hadjmohamed.oran_agro.Product;
 import com.hadjmohamed.oran_agro.R;
@@ -42,44 +40,50 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Spinner;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class NewSaleActivity extends AppCompatActivity implements RecViewInterface, View.OnClickListener {
 
+    // TODO Back Home Page Var
+    private ImageView backArrowBtnNewSale;
+    // TODO RecyclerView Product var
+    private String typeRec = "Product";
     private RecyclerView recyclerView;
-    private List<Product> productList, products;
+    private List<Product> productList;
     private Product product;
     private AdapterRecProduct adapterRecProduct;
     private ProgressDialog progressDialog;
+    // TODO Total var
     private TextView totalNewSale;
-    private int total;
+    private Float total = 0.0f;
     private Button submitNewSale;
 
-    // Search
+    // TODO Search Var
     private String searchVariable;
     private SearchView searchView;
-    // firebase
+    // TODO firebase var
     private FirebaseFirestore firestore;
     private FirebaseAuth firebaseAuth;
 
-    //Table
-    private TableLayout tableView;
+    // TODO Table Var
+    private RecyclerView recyclerViewTable;
+    private List<Product> productListTable;
+    private AdapterRecTableProduct adapterRecTableProduct;
 
-    //dialog Product
+    // TODO Dialog Product Var
     private Dialog dialogProduct, dialogSale;
     private TextView productName, productPricePiece, productPriceCarton, productPriceTotal;
-    private Button submit, cancel;
+    private Button submit, cancel, delete;
     private EditText amount;
 
-    //dialog Sale
+    // TODO Dialog Sale Var
     private Spinner spinner;
     private TextView totalSubmitSale;
     private EditText payment;
@@ -92,7 +96,20 @@ public class NewSaleActivity extends AppCompatActivity implements RecViewInterfa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_sale);
 
-        //dialog add product
+        // TODO Firebase
+        firebaseAuth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
+
+        // TODO Back Home Page
+        backArrowBtnNewSale = findViewById(R.id.backArrowBtnNewSale);
+        backArrowBtnNewSale.setOnClickListener(this);
+
+        // TODO total
+        totalNewSale = findViewById(R.id.totalNewSale);
+        submitNewSale = findViewById(R.id.submitNewSale);
+        submitNewSale.setOnClickListener(this);
+
+        // TODO dialog add product
         dialogProduct = new Dialog(this);
         dialogProduct.setCancelable(false);
         dialogProduct.setContentView(R.layout.add_product_sale);
@@ -105,8 +122,10 @@ public class NewSaleActivity extends AppCompatActivity implements RecViewInterfa
         amount = dialogProduct.findViewById(R.id.productAmountSale);
         submit = dialogProduct.findViewById(R.id.submitSale);
         cancel = dialogProduct.findViewById(R.id.CancelSale);
+        delete = dialogProduct.findViewById(R.id.deleteSale);
+        delete.setVisibility(View.GONE);
 
-        //dialog submit sale
+        // TODO dialog submit sale
         dialogSale = new Dialog(this);
         dialogSale.setCancelable(false);
         dialogSale.setContentView(R.layout.submit_order_sale);
@@ -118,29 +137,25 @@ public class NewSaleActivity extends AppCompatActivity implements RecViewInterfa
         submitPayment = dialogSale.findViewById(R.id.submitPay);
         cancelPayment = dialogSale.findViewById(R.id.CancelPay);
 
-        // Progress
+        // TODO Progress
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Fetching data...");
         progressDialog.show();
 
-        // RecyclerView
+        // TODO RecyclerView Product
         recyclerView = findViewById(R.id.recyclerViewProduct);
         productList = new ArrayList<>();
-        products = new ArrayList<>();
         adapterRecProduct = new AdapterRecProduct(getApplicationContext(),
                 productList, this);
-
-        firebaseAuth = FirebaseAuth.getInstance();
-        firestore = FirebaseFirestore.getInstance();
         getProduct();
 
-        // Search
+        // TODO Search
         searchView = findViewById(R.id.searchViewNewSale);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                searchVariable = s.substring(0,1).toUpperCase() + s.substring(1);
+                searchVariable = s.substring(0, 1).toUpperCase() + s.substring(1);
                 getSubCategory(searchVariable);
                 return true;
             }
@@ -150,12 +165,12 @@ public class NewSaleActivity extends AppCompatActivity implements RecViewInterfa
                 return false;
             }
         });
-        
-        // Table
-        tableView = findViewById(R.id.tableView);
-        totalNewSale = findViewById(R.id.totalNewSale);
-        submitNewSale = findViewById(R.id.submitNewSale);
-        submitNewSale.setOnClickListener(this);
+
+        // TODO Table
+        recyclerViewTable = findViewById(R.id.recyclerViewProductSale);
+        productListTable = new ArrayList<>();
+        adapterRecTableProduct = new AdapterRecTableProduct(getApplicationContext(),
+                productListTable, this);
     }
 
     private void getProduct() {
@@ -184,6 +199,7 @@ public class NewSaleActivity extends AppCompatActivity implements RecViewInterfa
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         recyclerView.setAdapter(adapterRecProduct);
     }
+
     private void getSubCategory(String searchVariable) {
         firestore.collection("SubCategory")
                 .whereEqualTo("Name", searchVariable)
@@ -202,6 +218,7 @@ public class NewSaleActivity extends AppCompatActivity implements RecViewInterfa
                     }
                 });
     }
+
     private void getProductSearch(String s, int IDCategorie) {
         // Progress
         progressDialog = new ProgressDialog(this);
@@ -246,70 +263,17 @@ public class NewSaleActivity extends AppCompatActivity implements RecViewInterfa
         recyclerView.setAdapter(adapterRecProduct);
     }
 
-    @Override
-    public void onItemClick(String view, int position) {
-        product = productList.get(position);
-        productName.setText(product.getNameProduct());
-        productPricePiece.setText(product.getPrixUnitaire() + "");
-        productPriceCarton.setText(product.getPrixCarton() + "");
-        productPriceTotal.setText(String.valueOf(product.getPrixCarton() * Integer.parseInt(amount.getText().toString())));
-        amount.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                try {
-                    productPriceTotal.setText(String.valueOf(product.getPrixCarton() * Integer.parseInt(amount.getText().toString())));
-                }catch (Exception e){
-                    Log.e("Error amount:", e.getMessage());
-                }
-            }
-        });
-        submit.setOnClickListener(this);
-        cancel.setOnClickListener(this);
-        dialogProduct.show();
-    }
-    private void addRow(String[] data){
-        TableRow tableRow = new TableRow(this);
-        TextView textView1 = new TextView(this);
-        textView1.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
-                TableRow.LayoutParams.WRAP_CONTENT,
-                10f));
-
-        TextView textView2 = new TextView(this);
-        textView2.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
-                TableRow.LayoutParams.WRAP_CONTENT,
-                1f));
-
-        TextView textView3 = new TextView(this);
-        textView3.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
-                TableRow.LayoutParams.WRAP_CONTENT,
-                1f));
-
-
-        textView1.setText(data[0]);
-        textView2.setText(data[1]);
-        textView3.setText(data[2]);
-
-        tableRow.addView(textView1);
-        tableRow.addView(textView2);
-        tableRow.addView(textView3);
-
-        tableView.addView(tableRow);
+    private void addRow(Product product) {
+        productListTable.add(product);
+        adapterRecTableProduct.notifyDataSetChanged();
+        recyclerViewTable.setLayoutManager(new
+                LinearLayoutManager(this,
+                LinearLayoutManager.VERTICAL, false));
+        recyclerViewTable.setAdapter(adapterRecTableProduct);
         dialogProduct.dismiss();
-        amount.setText("1");
-        total += Integer.parseInt(productPriceTotal.getText().toString());
-        totalNewSale.setText(String.valueOf(total));
     }
-    private void getUsers(){
+
+    private void getUsers() {
         firestore.collection("Users")
                 .orderBy("name")
                 .get()
@@ -318,7 +282,7 @@ public class NewSaleActivity extends AppCompatActivity implements RecViewInterfa
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (!task.isSuccessful())
                             Log.e("Error:", "Field get users");
-                        for(QueryDocumentSnapshot d : task.getResult()) {
+                        for (QueryDocumentSnapshot d : task.getResult()) {
                             namesList.add(d.toObject(User.class).getName());
                             userList.add(d.toObject(User.class));
                         }
@@ -333,15 +297,104 @@ public class NewSaleActivity extends AppCompatActivity implements RecViewInterfa
     }
 
     @Override
+    public void onItemClick(String view, int position) {
+        if (Objects.equals(view, "Product")) {
+            typeRec = "Product";
+            delete.setVisibility(View.GONE);
+            product = productList.get(position);
+            productName.setText(product.getNameProduct());
+            productPricePiece.setText(product.getPrixUnitaire() + "");
+            productPriceCarton.setText(product.getPrixCarton() + "");
+            productPriceTotal.setText(String.valueOf(product.getPrixCarton() * Integer.parseInt(amount.getText().toString())));
+            amount.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    try {
+                        productPriceTotal.setText(String.valueOf(product.getPrixCarton() * Integer.parseInt(amount.getText().toString())));
+                    } catch (Exception e) {
+                        Log.e("Error amount:", e.getMessage());
+                    }
+                }
+            });
+            submit.setOnClickListener(this);
+            cancel.setOnClickListener(this);
+            dialogProduct.show();
+        } else if (Objects.equals(view, "Table")) {
+            typeRec = "Table";
+            product = productListTable.get(position);
+            productName.setText(product.getNameProduct());
+            productPricePiece.setText(product.getPrixUnitaire() + "");
+            productPriceCarton.setText(product.getPrixCarton() + "");
+            productPriceTotal.setText(String.valueOf(product.getPrixCarton() * Integer.parseInt(amount.getText().toString())));
+            amount.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    try {
+                        productPriceTotal.setText(String.valueOf(product.getPrixCarton() * Integer.parseInt(amount.getText().toString())));
+                    } catch (Exception e) {
+                        Log.e("Error amount:", e.getMessage());
+                    }
+                }
+            });
+            submit.setOnClickListener(this);
+            cancel.setOnClickListener(this);
+            delete.setVisibility(View.VISIBLE);
+            delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    productListTable.remove(position);
+                    total -= product.getPrixCarton() * product.getQuantite();
+                    totalNewSale.setText(String.valueOf(total));
+                    adapterRecTableProduct.notifyDataSetChanged();
+                    recyclerViewTable.setLayoutManager(new
+                            LinearLayoutManager(NewSaleActivity.this,
+                            LinearLayoutManager.VERTICAL, false));
+                    recyclerViewTable.setAdapter(adapterRecTableProduct);
+                    dialogProduct.dismiss();
+                }
+            });
+            dialogProduct.show();
+        }
+    }
+
+    @Override
     public void onClick(View view) {
-        if (view == submit){
-            products.add(product);
-            addRow(new String[]{product.getNameProduct(),
-                    String.valueOf(product.getPrixCarton() * Integer.parseInt(amount.getText().toString())),
-                    product.getQuantite() + "*" + Integer.parseInt(amount.getText().toString())});
-        }else if (view == cancel){
+        if (view == submit) {
+            if (Objects.equals(typeRec, "Product")){
+                product.setQuantite(Integer.parseInt(amount.getText().toString()));
+                total += product.getPrixCarton() * Integer.parseInt(amount.getText().toString());
+                totalNewSale.setText(String.valueOf(total));
+                addRow(product);
+            } else if (Objects.equals(typeRec, "Table")) {
+                product.setQuantite(Integer.parseInt(amount.getText().toString()));
+                total += product.getPrixCarton() * Integer.parseInt(amount.getText().toString());
+                totalNewSale.setText(String.valueOf(total));
+                adapterRecTableProduct.notifyDataSetChanged();
+                dialogProduct.dismiss();
+            }
+        } else if (view == cancel) {
             dialogProduct.dismiss();
-        }else if (view == submitNewSale){
+        } else if (view == submitNewSale) {
             namesList = new ArrayList<>();
             userList = new ArrayList<>();
             getUsers();
@@ -351,18 +404,21 @@ public class NewSaleActivity extends AppCompatActivity implements RecViewInterfa
             submitPayment.setOnClickListener(this);
             cancelPayment.setOnClickListener(this);
             dialogSale.show();
-        }else if (view == submitPayment){
+        } else if (view == submitPayment) {
             Sale sale = new Sale();
             sale.setUidEmployee(firebaseAuth.getCurrentUser().getUid());
             sale.setUidClient(userList.get(spinner.getSelectedItemPosition()).getIdUser());
-            sale.setProducts(products);
+            sale.setProducts(productListTable);
             sale.setTotal(total);
-            sale.setTotalPayed(Integer.parseInt(payment.getText().toString()));
+            sale.setTotalPayed(Float.parseFloat(payment.getText().toString()));
+            String uid = firestore.collection("Sales").document().getId();
+            sale.setUid(uid);
             firestore.collection("Sales")
-                    .add(sale)
-                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    .document(uid)
+                    .set(sale)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
-                        public void onSuccess(DocumentReference documentReference) {
+                        public void onSuccess(Void unused) {
                             startActivity(new Intent(NewSaleActivity.this, HomePageAdminActivity.class));
                             finish();
                             dialogSale.dismiss();
@@ -370,6 +426,9 @@ public class NewSaleActivity extends AppCompatActivity implements RecViewInterfa
                     });
         } else if (view == cancelPayment) {
             dialogSale.dismiss();
+        } else if (view == backArrowBtnNewSale) {
+            startActivity(new Intent(NewSaleActivity.this, HomePageAdminActivity.class));
+            finish();
         }
     }
 }

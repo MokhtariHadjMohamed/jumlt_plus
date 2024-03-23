@@ -28,6 +28,8 @@ public class AdapterRecCategory extends RecyclerView.Adapter<HolderRecCategory> 
     Context context;
     List<Category> categoryList;
 
+    private int layout = R.layout.category_rec_item;
+
     public AdapterRecCategory(Context context, List<Category> categoryList, RecViewInterface recViewInterface) {
         this.recViewInterface = recViewInterface;
         this.context = context;
@@ -38,7 +40,7 @@ public class AdapterRecCategory extends RecyclerView.Adapter<HolderRecCategory> 
     @Override
     public HolderRecCategory onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new HolderRecCategory(LayoutInflater.from(context).
-                inflate(R.layout.category_rec_item, parent, false), recViewInterface);
+                inflate(layout, parent, false), recViewInterface);
     }
 
     @Override
@@ -78,5 +80,9 @@ public class AdapterRecCategory extends RecyclerView.Adapter<HolderRecCategory> 
             imageView.setImageResource(R.drawable.baseline_image_not_supported_24);
             throw new RuntimeException(e);
         }
+    }
+
+    public void setLayout(int layout) {
+        this.layout = layout;
     }
 }

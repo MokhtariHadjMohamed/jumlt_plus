@@ -7,14 +7,14 @@ public class ProductOrder {
     private int quantity;
     private String orderSituation;
     private String productName;
-    private int productPrice;
+    private Float productPrice;
 
     public ProductOrder() {
     }
 
     public ProductOrder(String idOrder, String idProduct, String idClient,
                         int quantity, String orderSituation,
-                        String productName, int productPrice) {
+                        String productName, Float productPrice) {
         this.idOrder = idOrder;
         this.idProduct = idProduct;
         this.idClient = idClient;
@@ -72,11 +72,11 @@ public class ProductOrder {
         this.productName = productName;
     }
 
-    public int getProductPrice() {
+    public Float getProductPrice() {
         return productPrice;
     }
 
-    public void setProductPrice(int productPrice) {
+    public void setProductPrice(Float productPrice) {
         this.productPrice = productPrice;
     }
 

@@ -8,14 +8,14 @@
 
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView4"
+        android:id="@+id/homeBtn"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        app:layout_constraintBottom_toBottomOf="@+id/cardView5"
-        app:layout_constraintEnd_toStartOf="@+id/cardView5"
+        app:layout_constraintBottom_toBottomOf="@+id/addProductWarehouse"
+        app:layout_constraintEnd_toStartOf="@+id/addProductWarehouse"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/cardView5">
+        app:layout_constraintTop_toTopOf="@+id/addProductWarehouse">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -27,14 +27,14 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/baseline_home_24"
-                app:layout_constraintBottom_toTopOf="@+id/textView24"
+                app:layout_constraintBottom_toTopOf="@+id/homeTextWarehouse"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView24"
+                android:id="@+id/homeTextWarehouse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -49,14 +49,14 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView5"
+        android:id="@+id/addProductWarehouse"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toStartOf="@+id/cardView6"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/categoryBtn"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/cardView4"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintStart_toEndOf="@+id/homeBtn"
+        app:layout_constraintTop_toBottomOf="@+id/searchViewWarehouse">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -68,18 +68,18 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/baseline_add_24"
-                app:layout_constraintBottom_toTopOf="@+id/textView24"
+                app:layout_constraintBottom_toTopOf="@+id/addTextWarehouse"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView24"
+                android:id="@+id/addTextWarehouse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="بيع حديد"
+                android:text="أضف منتج"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -89,14 +89,14 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView6"
+        android:id="@+id/categoryBtn"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        app:layout_constraintBottom_toBottomOf="@+id/cardView5"
+        app:layout_constraintBottom_toBottomOf="@+id/addProductWarehouse"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/cardView5"
-        app:layout_constraintTop_toTopOf="@+id/cardView5">
+        app:layout_constraintStart_toEndOf="@+id/addProductWarehouse"
+        app:layout_constraintTop_toTopOf="@+id/addProductWarehouse">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -107,19 +107,19 @@
                 android:id="@+id/imageView4"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/baseline_calendar_month_24"
-                app:layout_constraintBottom_toTopOf="@+id/textView24"
+                android:src="@drawable/baseline_playlist_add_check_24"
+                app:layout_constraintBottom_toTopOf="@+id/categoryTextWarehouse"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView24"
+                android:id="@+id/categoryTextWarehouse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="المبيعات"
+                android:text="الكل"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -136,7 +136,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView5">
+        app:layout_constraintTop_toBottomOf="@+id/addProductWarehouse">
 
         <TableRow
             android:background="@color/orangeMy"
@@ -147,30 +147,55 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="10"
                 android:fontFamily="sans-serif-medium"
-                android:text="اسم الزبون" />
+                android:text="اسم المنتج" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
-                android:text="المبلغ الإجمالي" />
+                android:text="سعر المنتج" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
-                android:text="المبلغ المدفوع" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="sans-serif-medium"
-                android:text="الملبغ المتبقي" />
+                android:text="الكمية" />
         </TableRow>
 
     </TableLayout>
+
+    <SearchView
+        android:id="@+id/searchViewWarehouse"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewProduct"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tableView" />
+
+    <FrameLayout
+        android:id="@+id/fragmentWarehouse"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:elevation="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,15 +8,14 @@ public class Sale {
     private String uid;
     private String uidClient;
     private String uidEmployee;
-
     private List<Product> products;
-    private int total;
-    private int totalPayed;
+    private Float total;
+    private Float totalPayed;
 
     public Sale() {
     }
 
-    public Sale(String uid, String uidClient, String uidEmployee, List<Product> products, int total, int totalPayed) {
+    public Sale(String uid, String uidClient, String uidEmployee, List<Product> products, Float total, Float totalPayed) {
         this.uid = uid;
         this.uidClient = uidClient;
         this.uidEmployee = uidEmployee;
@@ -57,19 +56,19 @@ public class Sale {
         this.products = products;
     }
 
-    public int getTotal() {
+    public Float getTotal() {
         return total;
     }
 
-    public void setTotal(int total) {
+    public void setTotal(Float total) {
         this.total = total;
     }
 
-    public int getTotalPayed() {
+    public Float getTotalPayed() {
         return totalPayed;
     }
 
-    public void setTotalPayed(int totalPayed) {
+    public void setTotalPayed(Float totalPayed) {
         this.totalPayed = totalPayed;
     }
 }

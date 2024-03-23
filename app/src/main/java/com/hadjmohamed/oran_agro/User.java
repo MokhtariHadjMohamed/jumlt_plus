@@ -1,5 +1,7 @@
 package com.hadjmohamed.oran_agro;
 
+import java.util.HashMap;
+
 public class User {
     private String idUser, name, familyName, address, email, invitation, type;
     private int phone;
@@ -113,5 +115,15 @@ public class User {
                 ", type='" + type + '\'' +
                 ", phone=" + phone +
                 '}';
+    }
+
+    public HashMap<String, Object> toHashMap(){
+        HashMap<String, Object> client = new HashMap<String, Object>();
+        client.put("name", name);
+        client.put("familyName", familyName);
+        client.put("address", address);
+        client.put("email", email);
+        client.put("phone", phone);
+        return client;
     }
 }

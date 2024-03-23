@@ -2,17 +2,20 @@ package com.hadjmohamed.oran_agro;
 
 import android.net.Uri;
 
+import java.util.HashMap;
+import java.util.Objects;
+
 public class Product {
 
     private String idProduct;
-    private int Quantite, PrixUnitaire, PrixCarton, IDCategorie;
-    private Uri image;
-    private String NameProduct, description;
+    private int Quantite, IDCategorie;
+    private Float PrixUnitaire, PrixCarton;
+    private String NameProduct;
 
     public Product() {
     }
 
-    public Product(String idProduct, int quantite, int PrixUnitaire, int PrixCarton,
+    public Product(String idProduct, int quantite, Float PrixUnitaire, Float PrixCarton,
                    int IDCategorie, String NameProduct) {
         this.idProduct = idProduct;
         this.Quantite = quantite;
@@ -34,24 +37,24 @@ public class Product {
         return Quantite;
     }
 
-    public void setQuantite(int quantite) {
-        Quantite = quantite;
+    public void setQuantite(int Quantite) {
+        this.Quantite = Quantite;
     }
 
-    public int getPrixUnitaire() {
+    public Float getPrixUnitaire() {
         return PrixUnitaire;
     }
 
-    public void setPrixUnitaire(int prixUnitaire) {
-        PrixUnitaire = prixUnitaire;
+    public void setPrixUnitaire(Float PrixUnitaire) {
+        this.PrixUnitaire = PrixUnitaire;
     }
 
-    public int getPrixCarton() {
+    public Float getPrixCarton() {
         return PrixCarton;
     }
 
-    public void setPrixCarton(int prixCarton) {
-        PrixCarton = prixCarton;
+    public void setPrixCarton(Float PrixCarton) {
+        this.PrixCarton = PrixCarton;
     }
 
     public int getIDCategorie() {
@@ -62,29 +65,22 @@ public class Product {
         this.IDCategorie = IDCategorie;
     }
 
-    public Uri getImage() {
-        return image;
-    }
-
-    public void setImage(Uri image) {
-        this.image = image;
-    }
-
     public String getNameProduct() {
         return NameProduct;
     }
 
-    public void setNameProduct(String nameProduct) {
-        NameProduct = nameProduct;
+    public void setNameProduct(String NameProduct) {
+        this.NameProduct = NameProduct;
     }
 
-    public String getDescription() {
-        return description;
+    public HashMap<String, Object> toHashMap(){
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("idProduct", this.idProduct);
+        hashMap.put("NameProduct", this.NameProduct);
+        hashMap.put("Quantite", this.Quantite);
+        hashMap.put("PrixUnitaire", this.PrixUnitaire);
+        hashMap.put("PrixCarton", this.PrixCarton);
+        hashMap.put("IDCategorie", this.IDCategorie);
+        return hashMap;
     }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-
 }

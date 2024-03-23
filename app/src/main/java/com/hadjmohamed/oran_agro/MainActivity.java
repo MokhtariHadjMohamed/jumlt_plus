@@ -14,9 +14,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.hadjmohamed.oran_agro.AdminAndDelivery.ClientsActivity;
 import com.hadjmohamed.oran_agro.AdminAndDelivery.HomePageAdminActivity;
 import com.hadjmohamed.oran_agro.AdminAndDelivery.NewSaleActivity;
 import com.hadjmohamed.oran_agro.AdminAndDelivery.SalesActivity;
+import com.hadjmohamed.oran_agro.AdminAndDelivery.WarehouseActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -64,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
                                 progressDialog.dismiss();
                             finish();
                         } else if (user.getType().equals("admin") || user.getType().equals("employee")) {
-                            startActivity(new Intent(MainActivity.this, NewSaleActivity.class));
+                            startActivity(new Intent(MainActivity.this, ClientsActivity.class));
                             if (progressDialog.isShowing())
                                 progressDialog.dismiss();
                             finish();
