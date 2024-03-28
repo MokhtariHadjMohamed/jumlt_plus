@@ -51,18 +51,8 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/map_key" />
-
-        <activity
-            android:name=".AdminAndDelivery.AccountInfoDeliveryBoyActivity"
-            android:exported="false" />
-        <activity
-            android:name=".AdminAndDelivery.LanguageDeliveryBoyAcitvity"
-            android:exported="false" />
         <activity
             android:name=".AdminAndDelivery.OrderInfoPageDeliveryBoy"
-            android:exported="false" />
-        <activity
-            android:name=".AdminAndDelivery.AccountPageDeliveryBoyActivity"
             android:exported="false" />
         <activity
             android:name=".AdminAndDelivery.OrdersActivity"

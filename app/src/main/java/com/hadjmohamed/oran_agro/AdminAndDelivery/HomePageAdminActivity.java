@@ -79,7 +79,7 @@ public class HomePageAdminActivity extends AppCompatActivity implements View.OnC
                         if (!task.isSuccessful())
                             Log.e("Failed Firestor", "Failed Users");
                         User user = task.getResult().toObject(User.class);
-                        if (user.getType().equals("admin")) {
+                        if (user.getType().equals("admin") || user.getType().equals("employee")) {
                             employees.setOnClickListener(HomePageAdminActivity.this);
                             deletedSales.setOnClickListener(HomePageAdminActivity.this);
                             orders.setOnClickListener(HomePageAdminActivity.this);

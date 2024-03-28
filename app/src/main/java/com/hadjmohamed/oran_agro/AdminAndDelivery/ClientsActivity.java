@@ -46,7 +46,6 @@ public class ClientsActivity extends AppCompatActivity implements RecViewInterfa
 
     // TODO Firebase var
     private FirebaseFirestore firestore;
-    private FirebaseAuth firebaseAuth;
 
     // TODO Dialog
     private Dialog dialog;
@@ -61,7 +60,6 @@ public class ClientsActivity extends AppCompatActivity implements RecViewInterfa
 
         // TODO Firebase
         firestore = FirebaseFirestore.getInstance();
-        firebaseAuth = FirebaseAuth.getInstance();
 
         // TODO RecyclerView
         recyclerView = findViewById(R.id.recyclerViewClient);

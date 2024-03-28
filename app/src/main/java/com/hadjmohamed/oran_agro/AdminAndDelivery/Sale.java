@@ -2,6 +2,7 @@ package com.hadjmohamed.oran_agro.AdminAndDelivery;
 
 import com.hadjmohamed.oran_agro.Product;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class Sale {
@@ -70,5 +71,16 @@ public class Sale {
 
     public void setTotalPayed(Float totalPayed) {
         this.totalPayed = totalPayed;
+    }
+
+    public HashMap<String, Object> toHashMap(){
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("uid", uid);
+        hashMap.put("uidClient", uidClient);
+        hashMap.put("uidEmployee", uidEmployee);
+        hashMap.put("products", products);
+        hashMap.put("total", total);
+        hashMap.put("totalPayed", totalPayed);
+        return hashMap;
     }
 }
