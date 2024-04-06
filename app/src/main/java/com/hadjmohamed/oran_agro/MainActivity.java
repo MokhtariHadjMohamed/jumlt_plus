@@ -19,6 +19,8 @@ import com.google.firebase.firestore.MemoryCacheSettings;
 import com.google.firebase.firestore.PersistentCacheSettings;
 import com.hadjmohamed.oran_agro.AdminAndDelivery.ClientsActivity;
 import com.hadjmohamed.oran_agro.AdminAndDelivery.EmployeesActivity;
+import com.hadjmohamed.oran_agro.AdminAndDelivery.Expenses;
+import com.hadjmohamed.oran_agro.AdminAndDelivery.ExpensesActivity;
 import com.hadjmohamed.oran_agro.AdminAndDelivery.HomePageAdminActivity;
 import com.hadjmohamed.oran_agro.AdminAndDelivery.NewSaleActivity;
 import com.hadjmohamed.oran_agro.AdminAndDelivery.SalesActivity;
@@ -83,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                                 progressDialog.dismiss();
                             finish();
                         } else if (user.getType().equals("admin") || user.getType().equals("employee")) {
-                            startActivity(new Intent(MainActivity.this, EmployeesActivity.class));
+                            startActivity(new Intent(MainActivity.this, ExpensesActivity.class));
                             if (progressDialog.isShowing())
                                 progressDialog.dismiss();
                             finish();
