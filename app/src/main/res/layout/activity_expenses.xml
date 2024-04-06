@@ -146,14 +146,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="10"
                 android:fontFamily="sans-serif-medium"
-                android:text="اسم الزبون" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="sans-serif-medium"
-                android:text="المبلغ الإجمالي" />
+                android:text="اسم" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -162,13 +155,15 @@
                 android:fontFamily="sans-serif-medium"
                 android:text="المبلغ المدفوع" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="sans-serif-medium"
-                android:text="الملبغ المتبقي" />
         </TableRow>
 
     </TableLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewExpensesActivity"
+        android:layout_width="409dp"
+        android:layout_height="578dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tableView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

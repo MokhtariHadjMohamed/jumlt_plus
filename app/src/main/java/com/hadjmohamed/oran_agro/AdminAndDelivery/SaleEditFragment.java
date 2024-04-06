@@ -26,22 +26,16 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.api.Usage;
-import com.google.common.util.concurrent.Futures;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.hadjmohamed.oran_agro.AdapterRecProduct;
-import com.hadjmohamed.oran_agro.AdapterRecTableProduct;
+import com.hadjmohamed.oran_agro.AdaptersAndHolder.AdapterRecTableProduct;
 import com.hadjmohamed.oran_agro.Product;
 import com.hadjmohamed.oran_agro.R;
 import com.hadjmohamed.oran_agro.RecViewInterface;
-import com.hadjmohamed.oran_agro.User;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Future;
 
 public class SaleEditFragment extends Fragment implements RecViewInterface, View.OnClickListener {
 

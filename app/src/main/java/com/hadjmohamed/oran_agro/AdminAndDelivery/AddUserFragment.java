@@ -1,27 +1,32 @@
 package com.hadjmohamed.oran_agro.AdminAndDelivery;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.hadjmohamed.oran_agro.R;
+import com.hadjmohamed.oran_agro.User;
 
-public class AddClientFragment extends Fragment implements View.OnClickListener {
+import java.util.Objects;
+
+public class AddUserFragment extends Fragment implements View.OnClickListener {
 
     // TODO View var
     private View view;
     // TODO info
     private EditText name, fName, address, phone, email;
+    private Spinner typeUser;
     private Button submit, cancel;
 
     // TODO Firebase
@@ -34,7 +39,7 @@ public class AddClientFragment extends Fragment implements View.OnClickListener 
         firestore = FirebaseFirestore.getInstance();
 
         // TODO View
-        view = inflater.inflate(R.layout.fragment_add_client, container, false);
+        view = inflater.inflate(R.layout.fragment_add_user, container, false);
 
         // TODO info
         name = view.findViewById(R.id.nameAddClientFragment);
@@ -43,42 +48,57 @@ public class AddClientFragment extends Fragment implements View.OnClickListener 
         phone = view.findViewById(R.id.phoneNumberAddClientFragment);
         email = view.findViewById(R.id.emailAddClientFragment);
         submit = view.findViewById(R.id.submitAddClientFragment);
+        typeUser = view.findViewById(R.id.typeUser);
         submit.setOnClickListener(this);
         cancel = view.findViewById(R.id.cancelBtnAddClient);
         cancel.setOnClickListener(this);
 
+        // Create an ArrayAdapter using the string array and a default spinner layout.
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                requireContext(),
+                R.array.planets_array,
+                android.R.layout.simple_spinner_item
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        typeUser.setAdapter(adapter);
+
+
         return view;
     }
-    private void addClient(Client client) {
+
+    private void addClient(User user) {
         String uid = firestore.collection("Users").document().getId();
-        client.setIdUser(uid);
+        user.setIdUser(uid);
         firestore.collection("Users")
                 .document(uid)
-                .set(client)
+                .set(user)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Toast.makeText(AddClientFragment.this.getContext(), "Add User Done",
+                        Toast.makeText(AddUserFragment.this.getContext(), "Add User Done",
                                 Toast.LENGTH_SHORT).show();
                         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                        fragmentManager.beginTransaction().remove(AddClientFragment.this).commit();
+                        fragmentManager.beginTransaction().remove(AddUserFragment.this).commit();
+                        getActivity().finish();
+                        startActivity(getActivity().getIntent());
                     }
                 });
     }
+
     @Override
     public void onClick(View view) {
-        if (view == submit){
-            Client client = new Client();
-            client.setName(name.getText().toString());
-            client.setFamilyName(fName.getText().toString());
-            client.setAddress(address.getText().toString());
-            client.setPhone(Integer.parseInt(phone.getText().toString()));
-            client.setEmail(email.getText().toString());
-            client.setType("user");
-            addClient(client);
+        if (view == submit) {
+            User user = new User();
+            user.setName(name.getText().toString());
+            user.setFamilyName(fName.getText().toString());
+            user.setAddress(address.getText().toString());
+            user.setPhone(Integer.parseInt(phone.getText().toString()));
+            user.setEmail(email.getText().toString());
+            user.setType(typeUser.getSelectedItem().toString());
+            addClient(user);
         } else if (view == cancel) {
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-            fragmentManager.beginTransaction().remove(AddClientFragment.this).commit();
+            fragmentManager.beginTransaction().remove(AddUserFragment.this).commit();
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.hadjmohamed.oran_agro;
+package com.hadjmohamed.oran_agro.AdaptersAndHolder;
 
 import android.content.Context;
 import android.util.Log;
@@ -13,6 +13,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.hadjmohamed.oran_agro.AdminAndDelivery.Sale;
+import com.hadjmohamed.oran_agro.R;
+import com.hadjmohamed.oran_agro.RecViewInterface;
+import com.hadjmohamed.oran_agro.User;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;

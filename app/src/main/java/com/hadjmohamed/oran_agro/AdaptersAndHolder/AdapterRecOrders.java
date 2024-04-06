@@ -1,4 +1,4 @@
-package com.hadjmohamed.oran_agro;
+package com.hadjmohamed.oran_agro.AdaptersAndHolder;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;
@@ -15,6 +15,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.hadjmohamed.oran_agro.ProductOrder;
+import com.hadjmohamed.oran_agro.R;
+import com.hadjmohamed.oran_agro.RecViewInterface;
 
 import java.io.File;
 import java.io.IOException;

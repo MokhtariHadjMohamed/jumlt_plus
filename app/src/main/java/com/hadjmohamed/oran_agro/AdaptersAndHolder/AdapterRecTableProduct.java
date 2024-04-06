@@ -1,4 +1,4 @@
-package com.hadjmohamed.oran_agro;
+package com.hadjmohamed.oran_agro.AdaptersAndHolder;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,20 +7,22 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.hadjmohamed.oran_agro.AdminAndDelivery.Client;
+import com.hadjmohamed.oran_agro.Product;
+import com.hadjmohamed.oran_agro.R;
+import com.hadjmohamed.oran_agro.RecViewInterface;
 
 import java.util.List;
 
-public class AdapterRecTableClient extends RecyclerView.Adapter<HolderRecTable> {
+public class AdapterRecTableProduct extends RecyclerView.Adapter<HolderRecTable> {
 
     private final RecViewInterface recViewInterface;
     Context context;
-    List<Client> clientList;
+    List<Product> productList;
 
-    public AdapterRecTableClient(Context context, List<Client> clientList, RecViewInterface recViewInterface) {
+    public AdapterRecTableProduct(Context context, List<Product> productList, RecViewInterface recViewInterface) {
         this.recViewInterface = recViewInterface;
         this.context = context;
-        this.clientList = clientList;
+        this.productList = productList;
     }
 
     @NonNull
@@ -32,14 +34,14 @@ public class AdapterRecTableClient extends RecyclerView.Adapter<HolderRecTable> 
 
     @Override
     public void onBindViewHolder(@NonNull HolderRecTable holder, int position) {
-        holder.productName.setText(clientList.get(position).getName());
-        holder.priceProduct.setText(clientList.get(position).getTotalDebt() + "");
-        holder.qnt.setText(clientList.get(position).getPaidDebt() + "");
+        holder.productName.setText(productList.get(position).getNameProduct());
+        holder.priceProduct.setText(productList.get(position).getPrixCarton() + "");
+        holder.qnt.setText(productList.get(position).getQuantite() + "");
     }
 
     @Override
     public int getItemCount() {
-        return clientList.size();
+        return productList.size();
     }
 
 }

@@ -20,16 +20,12 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.hadjmohamed.oran_agro.AdapterRecTableClient;
+import com.hadjmohamed.oran_agro.AdaptersAndHolder.AdapterRecTableClient;
 import com.hadjmohamed.oran_agro.R;
 import com.hadjmohamed.oran_agro.RecViewInterface;
-
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 import java.util.List;

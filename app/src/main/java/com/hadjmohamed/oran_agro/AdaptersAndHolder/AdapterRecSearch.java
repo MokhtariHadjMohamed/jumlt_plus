@@ -1,4 +1,4 @@
-package com.hadjmohamed.oran_agro;
+package com.hadjmohamed.oran_agro.AdaptersAndHolder;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;
@@ -15,37 +15,38 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.hadjmohamed.oran_agro.Product;
+import com.hadjmohamed.oran_agro.R;
+import com.hadjmohamed.oran_agro.RecViewInterface;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-public class AdapterRecProduct extends RecyclerView.Adapter<HolderRecProduct> {
+public class AdapterRecSearch extends RecyclerView.Adapter<HolderRecSearch> {
 
     private final RecViewInterface recViewInterface;
     Context context;
     List<Product> productList;
 
-    public AdapterRecProduct(Context context, List<Product> productList, RecViewInterface recViewInterface) {
-        this.recViewInterface = recViewInterface;
+    public AdapterRecSearch(Context context, List<Product> productList, RecViewInterface recViewInterface) {
         this.context = context;
         this.productList = productList;
+        this.recViewInterface = recViewInterface;
     }
 
     @NonNull
     @Override
-    public HolderRecProduct onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new HolderRecProduct(LayoutInflater.from(context).
-                inflate(R.layout.grid_item_salles, parent, false), recViewInterface);
+    public HolderRecSearch onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new HolderRecSearch(LayoutInflater.from(context).
+                inflate(R.layout.search_rec_item, parent, false), recViewInterface);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HolderRecProduct holder, int position) {
-
-        retrieveImage(holder.imageView, productList.get(position).getNameProduct());
+    public void onBindViewHolder(@NonNull HolderRecSearch holder, int position) {
         holder.productName.setText(productList.get(position).getNameProduct());
-        holder.productPriceCarton.setText(productList.get(position).getPrixCarton() + "");
-        holder.productPricePiece.setText(productList.get(position).getPrixUnitaire() + "");
+        holder.priceProduct.setText(productList.get(position).getPrixCarton() + "");
+        retrieveImage(holder.imageView, productList.get(position).getNameProduct());
     }
 
     @Override
@@ -71,12 +72,14 @@ public class AdapterRecProduct extends RecyclerView.Adapter<HolderRecProduct> {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     imageView.setImageResource(R.drawable.baseline_image_not_supported_24);
-                    Log.e("Image", e.getMessage());
+                    Log.e("Image: " + image , e.getMessage());
                 }
             });
         } catch (IOException e) {
             imageView.setImageResource(R.drawable.baseline_image_not_supported_24);
             throw new RuntimeException(e);
         }
+
     }
+
 }

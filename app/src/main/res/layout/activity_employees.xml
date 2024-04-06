@@ -6,14 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".AdminAndDelivery.EmployeesActivity">
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView4"
+        android:id="@+id/homeEmployeesActivity"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        app:layout_constraintBottom_toBottomOf="@+id/cardView5"
-        app:layout_constraintEnd_toStartOf="@+id/cardView5"
+        app:layout_constraintBottom_toBottomOf="@+id/addEmployeesActivity"
+        app:layout_constraintEnd_toStartOf="@+id/addEmployeesActivity"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/cardView5">
+        app:layout_constraintTop_toTopOf="@+id/addEmployeesActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -47,14 +47,14 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView5"
+        android:id="@+id/addEmployeesActivity"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toStartOf="@+id/cardView6"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/categoryEmployeesActivity"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/cardView4"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintStart_toEndOf="@+id/homeEmployeesActivity"
+        app:layout_constraintTop_toBottomOf="@+id/searchViewEmployeesActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -87,14 +87,14 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView6"
+        android:id="@+id/categoryEmployeesActivity"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        app:layout_constraintBottom_toBottomOf="@+id/cardView5"
+        app:layout_constraintBottom_toBottomOf="@+id/addEmployeesActivity"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/cardView5"
-        app:layout_constraintTop_toTopOf="@+id/cardView5">
+        app:layout_constraintStart_toEndOf="@+id/addEmployeesActivity"
+        app:layout_constraintTop_toTopOf="@+id/addEmployeesActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -106,18 +106,18 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/baseline_calendar_month_24"
-                app:layout_constraintBottom_toTopOf="@+id/textView24"
+                app:layout_constraintBottom_toTopOf="@+id/categoryTextEmployees"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView24"
+                android:id="@+id/categoryTextEmployees"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="المبيعات"
+                android:text="كل"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -130,11 +130,11 @@
         android:id="@+id/tableView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView5">
+        app:layout_constraintTop_toBottomOf="@+id/addEmployeesActivity">
 
         <TableRow
             android:background="@color/orangeMy"
@@ -143,31 +143,61 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="10"
+                android:layout_weight="8"
                 android:fontFamily="sans-serif-medium"
-                android:text="اسم الزبون" />
+                android:text="اسم الموضف" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="5"
                 android:fontFamily="sans-serif-medium"
-                android:text="المبلغ الإجمالي" />
+                android:text="رقم هاتف" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="5"
                 android:fontFamily="sans-serif-medium"
-                android:text="المبلغ المدفوع" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="sans-serif-medium"
-                android:text="الملبغ المتبقي" />
+                android:text="الوظيفة" />
         </TableRow>
 
     </TableLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/userRecycleViewemployees"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tableView" />
+
+    <SearchView
+        android:id="@+id/searchViewEmployeesActivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:iconifiedByDefault="false"
+        android:queryHint="Search for user"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/fragmentEmployees"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:elevation="300dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

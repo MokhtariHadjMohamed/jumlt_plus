@@ -1,4 +1,4 @@
-package com.hadjmohamed.oran_agro;
+package com.hadjmohamed.oran_agro.AdaptersAndHolder;
 
 import android.view.View;
 import android.widget.ImageView;
@@ -6,6 +6,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.hadjmohamed.oran_agro.R;
+import com.hadjmohamed.oran_agro.RecViewInterface;
 
 public class HolderRecOrders extends RecyclerView.ViewHolder {
 

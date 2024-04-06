@@ -14,7 +14,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.MemoryCacheSettings;
+import com.google.firebase.firestore.PersistentCacheSettings;
 import com.hadjmohamed.oran_agro.AdminAndDelivery.ClientsActivity;
+import com.hadjmohamed.oran_agro.AdminAndDelivery.EmployeesActivity;
 import com.hadjmohamed.oran_agro.AdminAndDelivery.HomePageAdminActivity;
 import com.hadjmohamed.oran_agro.AdminAndDelivery.NewSaleActivity;
 import com.hadjmohamed.oran_agro.AdminAndDelivery.SalesActivity;
@@ -22,6 +26,9 @@ import com.hadjmohamed.oran_agro.AdminAndDelivery.WarehouseActivity;
 
 public class MainActivity extends AppCompatActivity {
 
+    // TODO Firebase Declaration
+    private FirebaseFirestore firestore;
+    // TODO ProgressDialog Declaration
     private ProgressDialog progressDialog;
 
     @Override
@@ -34,7 +41,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 100);
-        // Progress
+        // TODO Firebase
+        firestore = FirebaseFirestore.getInstance();
+        FirebaseFirestoreSettings settings =
+                new FirebaseFirestoreSettings.Builder(firestore.getFirestoreSettings())
+                        // Use memory-only cache
+                        .setLocalCacheSettings(MemoryCacheSettings.newBuilder().build())
+                        // Use persistent disk cache (default)
+                        .setLocalCacheSettings(PersistentCacheSettings.newBuilder()
+                                .build())
+                        .build();
+        firestore.setFirestoreSettings(settings);
+        // TODO Progress
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Fetching data...");
@@ -51,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void testUser(String idUser) {
-        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         firestore.collection("Users")
                 .document(idUser)
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -66,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
                                 progressDialog.dismiss();
                             finish();
                         } else if (user.getType().equals("admin") || user.getType().equals("employee")) {
-                            startActivity(new Intent(MainActivity.this, HomePageAdminActivity.class));
+                            startActivity(new Intent(MainActivity.this, EmployeesActivity.class));
                             if (progressDialog.isShowing())
                                 progressDialog.dismiss();
                             finish();

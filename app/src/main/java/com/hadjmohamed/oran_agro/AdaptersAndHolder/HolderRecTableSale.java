@@ -1,21 +1,25 @@
-package com.hadjmohamed.oran_agro;
+package com.hadjmohamed.oran_agro.AdaptersAndHolder;
 
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class HolderRecTable extends RecyclerView.ViewHolder {
+import com.hadjmohamed.oran_agro.R;
+import com.hadjmohamed.oran_agro.RecViewInterface;
 
-    TextView productName, priceProduct, qnt;
+public class HolderRecTableSale extends RecyclerView.ViewHolder {
 
-    public HolderRecTable(@NonNull View itemView, RecViewInterface recViewInterface) {
+    TextView name, totalPrice, paidPrice, remaining;
+
+    public HolderRecTableSale(@NonNull View itemView, RecViewInterface recViewInterface) {
         super(itemView);
-        productName = itemView.findViewById(R.id.c1);
-        priceProduct = itemView.findViewById(R.id.c2);
-        qnt = itemView.findViewById(R.id.c3);
+        name = itemView.findViewById(R.id.c1);
+        totalPrice = itemView.findViewById(R.id.c2);
+        paidPrice = itemView.findViewById(R.id.c3);
+        remaining = itemView.findViewById(R.id.c4);
+
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override

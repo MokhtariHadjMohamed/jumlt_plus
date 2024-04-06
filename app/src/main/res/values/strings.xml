@@ -3,4 +3,10 @@
     <string name="map_key" translatable="false">AIzaSyBeELrvrVdLzsqPgD0OBGi0HralXX1ofuM</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="planets_array">
+        <item>employee</item>
+        <item>admin</item>
+        <item>deliveryBoy</item>
+    </string-array>
 </resources>

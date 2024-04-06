@@ -1,4 +1,4 @@
-package com.hadjmohamed.oran_agro;
+package com.hadjmohamed.oran_agro.AdaptersAndHolder;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,18 +7,22 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.hadjmohamed.oran_agro.R;
+import com.hadjmohamed.oran_agro.RecViewInterface;
+import com.hadjmohamed.oran_agro.User;
+
 import java.util.List;
 
-public class AdapterRecTableProduct extends RecyclerView.Adapter<HolderRecTable> {
+public class AdapterRecTableUser extends RecyclerView.Adapter<HolderRecTable> {
 
     private final RecViewInterface recViewInterface;
     Context context;
-    List<Product> productList;
+    List<User> userList;
 
-    public AdapterRecTableProduct(Context context, List<Product> productList, RecViewInterface recViewInterface) {
+    public AdapterRecTableUser(Context context, List<User> userList, RecViewInterface recViewInterface) {
         this.recViewInterface = recViewInterface;
         this.context = context;
-        this.productList = productList;
+        this.userList = userList;
     }
 
     @NonNull
@@ -30,14 +34,14 @@ public class AdapterRecTableProduct extends RecyclerView.Adapter<HolderRecTable>
 
     @Override
     public void onBindViewHolder(@NonNull HolderRecTable holder, int position) {
-        holder.productName.setText(productList.get(position).getNameProduct());
-        holder.priceProduct.setText(productList.get(position).getPrixCarton() + "");
-        holder.qnt.setText(productList.get(position).getQuantite() + "");
+        holder.productName.setText(userList.get(position).getName());
+        holder.priceProduct.setText(String.valueOf(userList.get(position).getPhone()));
+        holder.qnt.setText(userList.get(position).getType());
     }
 
     @Override
     public int getItemCount() {
-        return productList.size();
+        return userList.size();
     }
 
 }

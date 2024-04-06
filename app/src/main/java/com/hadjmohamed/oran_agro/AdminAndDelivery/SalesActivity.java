@@ -8,30 +8,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.icu.text.ListFormatter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.hadjmohamed.oran_agro.AdapterRecTableClient;
-import com.hadjmohamed.oran_agro.AdapterRecTableSales;
+import com.hadjmohamed.oran_agro.AdaptersAndHolder.AdapterRecTableSales;
 import com.hadjmohamed.oran_agro.R;
 import com.hadjmohamed.oran_agro.RecViewInterface;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class SalesActivity extends AppCompatActivity implements View.OnClickListener, RecViewInterface {

@@ -1,9 +1,7 @@
-package com.hadjmohamed.oran_agro;
+package com.hadjmohamed.oran_agro.AdaptersAndHolder;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -17,42 +15,45 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.hadjmohamed.oran_agro.Product;
+import com.hadjmohamed.oran_agro.R;
+import com.hadjmohamed.oran_agro.RecViewInterface;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-public class AdapterRecCategory extends RecyclerView.Adapter<HolderRecCategory> {
+public class AdapterRecProduct extends RecyclerView.Adapter<HolderRecProduct> {
 
     private final RecViewInterface recViewInterface;
     Context context;
-    List<Category> categoryList;
+    List<Product> productList;
 
-    private int layout = R.layout.category_rec_item;
-
-    public AdapterRecCategory(Context context, List<Category> categoryList, RecViewInterface recViewInterface) {
+    public AdapterRecProduct(Context context, List<Product> productList, RecViewInterface recViewInterface) {
         this.recViewInterface = recViewInterface;
         this.context = context;
-        this.categoryList = categoryList;
+        this.productList = productList;
     }
 
     @NonNull
     @Override
-    public HolderRecCategory onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new HolderRecCategory(LayoutInflater.from(context).
-                inflate(layout, parent, false), recViewInterface);
+    public HolderRecProduct onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new HolderRecProduct(LayoutInflater.from(context).
+                inflate(R.layout.grid_item_salles, parent, false), recViewInterface);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HolderRecCategory holder, int position) {
+    public void onBindViewHolder(@NonNull HolderRecProduct holder, int position) {
 
-        retrieveImage(holder.imageView, categoryList.get(position).getName());
-        holder.categoryName.setText(categoryList.get(position).getName());
+        retrieveImage(holder.imageView, productList.get(position).getNameProduct());
+        holder.productName.setText(productList.get(position).getNameProduct());
+        holder.productPriceCarton.setText(productList.get(position).getPrixCarton() + "");
+        holder.productPricePiece.setText(productList.get(position).getPrixUnitaire() + "");
     }
 
     @Override
     public int getItemCount() {
-        return categoryList.size();
+        return productList.size();
     }
 
     private void retrieveImage(ImageView imageView, String image) {
@@ -80,9 +81,5 @@ public class AdapterRecCategory extends RecyclerView.Adapter<HolderRecCategory> 
             imageView.setImageResource(R.drawable.baseline_image_not_supported_24);
             throw new RuntimeException(e);
         }
-    }
-
-    public void setLayout(int layout) {
-        this.layout = layout;
     }
 }

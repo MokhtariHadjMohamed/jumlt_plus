@@ -24,7 +24,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.hadjmohamed.oran_agro.AdapterRecOrders;
+import com.hadjmohamed.oran_agro.AdaptersAndHolder.AdapterRecOrders;
 import com.hadjmohamed.oran_agro.Order;
 import com.hadjmohamed.oran_agro.ProductOrder;
 import com.hadjmohamed.oran_agro.R;
