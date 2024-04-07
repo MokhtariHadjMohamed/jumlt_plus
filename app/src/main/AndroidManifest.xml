@@ -42,7 +42,7 @@
             android:name=".AdminAndDelivery.SalesActivity"
             android:exported="false" />
         <activity
-            android:name=".AdminAndDelivery.takenOrderDeliveryBoyActivity"
+            android:name=".AdminAndDelivery.takenOrderActivity"
             android:exported="false" />
         <activity
             android:name=".ProductInSameCategoryActivity"
@@ -52,7 +52,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/map_key" />
         <activity
-            android:name=".AdminAndDelivery.OrderInfoPageDeliveryBoy"
+            android:name=".AdminAndDelivery.OrderInfoActivity"
             android:exported="false" />
         <activity
             android:name=".AdminAndDelivery.OrdersActivity"

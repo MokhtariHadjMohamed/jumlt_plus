@@ -28,6 +28,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.hadjmohamed.oran_agro.AdaptersAndHolder.AdapterRecOrders;
+import com.hadjmohamed.oran_agro.AdaptersAndHolder.AdapterRecProductOrders;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,7 @@ public class ShoppingCartActivity extends AppCompatActivity implements RecViewIn
     private RecyclerView recyclerView;
     private FirebaseFirestore firestore;
     private List<ProductOrder> productOrderList;
-    private AdapterRecOrders adapterRecOrders;
+    private AdapterRecProductOrders adapterRecOrders;
     private ProgressDialog progressDialog;
     private Button submit;
     //dialog variable
@@ -63,7 +64,7 @@ public class ShoppingCartActivity extends AppCompatActivity implements RecViewIn
         recyclerView = findViewById(R.id.orderProdectShoppingCartActivity);
         firestore = FirebaseFirestore.getInstance();
         productOrderList = new ArrayList<>();
-        adapterRecOrders = new AdapterRecOrders(getApplicationContext(),
+        adapterRecOrders = new AdapterRecProductOrders(getApplicationContext(),
                 productOrderList, this);
 
         uploadProductsOrder();
@@ -98,13 +99,17 @@ public class ShoppingCartActivity extends AppCompatActivity implements RecViewIn
     private void submitOrder(List<ProductOrder> productOrders, String orderSituation) {
         Toast.makeText(this, orderSituation, Toast.LENGTH_SHORT).show();
         List<ProductOrder> po = new ArrayList<ProductOrder>();
-        for (ProductOrder o : productOrders)
+        float total = 0;
+        for (ProductOrder o : productOrders){
             if (Objects.equals(o.getOrderSituation(), "في انتظار شحن"))
                 po.add(o);
+            total =+ o.getProductPrice();
+        }
         DocumentReference order = firestore.collection("Orders").document();
         order.set(new Order(order.getId(),
                         FirebaseAuth.getInstance().getCurrentUser().getUid(),
                         po,
+                        total,
                         orderSituation,
                         null)).
                 addOnSuccessListener(new OnSuccessListener<Void>() {

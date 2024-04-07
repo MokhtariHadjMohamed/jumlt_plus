@@ -24,7 +24,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.hadjmohamed.oran_agro.AdaptersAndHolder.AdapterRecOrders;
+import com.hadjmohamed.oran_agro.AdaptersAndHolder.AdapterRecProductOrders;
 import com.hadjmohamed.oran_agro.Order;
 import com.hadjmohamed.oran_agro.ProductOrder;
 import com.hadjmohamed.oran_agro.R;
@@ -33,18 +33,25 @@ import com.hadjmohamed.oran_agro.RecViewInterface;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderInfoPageDeliveryBoy extends AppCompatActivity implements View.OnClickListener, RecViewInterface {
+public class OrderInfoActivity extends AppCompatActivity implements View.OnClickListener, RecViewInterface {
 
-    private TextView orderId, totalOrder;
-    private Button submit;
+    // TODO Firebase Declaration
     private FirebaseFirestore firestore;
+    // TODO Element Declaration
+    private TextView orderId, totalOrder;
+    private Button submit, cancel;
     private ImageView btnGoBack;
+    private String orderSituation;
+
+    // TODO RecyclerView Declaration
+    private RecyclerView recyclerView;
     private List<ProductOrder> productOrderList;
-    private AdapterRecOrders adapterRecOrders;
+    private AdapterRecProductOrders adapterRecOrders;
+
+    // TODO Progress Dialog Declaration
     private ProgressDialog progressDialog;
 
-    private RecyclerView recyclerView;
-    //dialog variable
+    // TODO Dialog variable Declaration
     private MaterialAlertDialogBuilder dialogBuilder;
     private AlertDialog alertDialog;
 
@@ -54,33 +61,52 @@ public class OrderInfoPageDeliveryBoy extends AppCompatActivity implements View.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_info_page_delivery_boy);
 
-        orderId = findViewById(R.id.IdOrderInfoActivity);
-        orderId.setText(getIntent().getStringExtra("orderId"));
-        totalOrder = findViewById(R.id.priceTotalOrderInfoActivity);
+        // TODO Firebase
+        firestore = FirebaseFirestore.getInstance();
 
-        //toolBar
+        // TODO Element
+        orderSituation = getIntent().getStringExtra("orderSituation");
+        orderId = findViewById(R.id.IdOrderInfoActivity);
+        totalOrder = findViewById(R.id.priceTotalOrderInfoActivity);
+        submit = findViewById(R.id.takeOrderInfoDeliveryBoy);
+        cancel = findViewById(R.id.cancelOrderInfoDeliveryBoy);
+
+        orderId.setText(getIntent().getStringExtra("orderId"));
+
+        if (orderSituation.equals("تم إلغاء الشحنة")){
+            submit.setText("تم إلغاء الشحنة");
+            submit.setEnabled(false);
+            cancel.setVisibility(View.GONE);
+            cancel.setEnabled(false);
+        } else if (orderSituation.equals("تم توصيل")) {
+            submit.setText("تم توصيل");
+            submit.setEnabled(false);
+            cancel.setVisibility(View.GONE);
+            cancel.setEnabled(false);
+        }
+
+        submit.setOnClickListener(this);
+        cancel.setOnClickListener(this);
+        // TODO toolBar
         Toolbar toolbar = findViewById(R.id.toolbarBack);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
         btnGoBack = findViewById(R.id.btnGoBack);
         btnGoBack.setOnClickListener(this);
 
-        submit = findViewById(R.id.takeOrderInfoDeliveryBoy);
-        submit.setOnClickListener(this);
 
-        // Progress
+        // TODO Progress
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Fetching data...");
         progressDialog.show();
 
-        // Recycler View
+        // TODO Recycler View
         recyclerView = findViewById(R.id.recViewOrderInfoPage);
         firestore = FirebaseFirestore.getInstance();
         productOrderList = new ArrayList<>();
-        adapterRecOrders = new AdapterRecOrders(getApplicationContext(),
+        adapterRecOrders = new AdapterRecProductOrders(getApplicationContext(),
                 productOrderList, this);
-
         loadOrder();
     }
 
@@ -88,13 +114,13 @@ public class OrderInfoPageDeliveryBoy extends AppCompatActivity implements View.
     public void onClick(View view) {
         if (view == submit) {
             dialogBuilder = new MaterialAlertDialogBuilder(this);
-            dialogBuilder.setMessage("هل تريد استلام هذا الطلب؟");
+            dialogBuilder.setMessage("هل تريد شحن هذا الطلب؟");
             dialogBuilder.setTitle("الطلب");
             dialogBuilder.setCancelable(false);
             dialogBuilder.setPositiveButton("take the order", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    for(ProductOrder o: productOrderList)
+                    for (ProductOrder o : productOrderList)
                         o.setOrderSituation("تم الشحن");
                     firestore.collection("Orders")
                             .document(getIntent().getStringExtra("orderId")).update(
@@ -102,7 +128,7 @@ public class OrderInfoPageDeliveryBoy extends AppCompatActivity implements View.
                                     "deliveryBoyId", FirebaseAuth.getInstance().getCurrentUser().getUid(),
                                     "productOrders", productOrderList
                             );
-                    startActivity(new Intent(OrderInfoPageDeliveryBoy.this,
+                    startActivity(new Intent(OrderInfoActivity.this,
                             HomePageAdminActivity.class));
                     finish();
                 }
@@ -116,8 +142,37 @@ public class OrderInfoPageDeliveryBoy extends AppCompatActivity implements View.
             alertDialog = dialogBuilder.create();
             alertDialog.show();
         } else if (view == btnGoBack) {
-            startActivity(new Intent(OrderInfoPageDeliveryBoy.this, HomePageAdminActivity.class));
+            startActivity(new Intent(OrderInfoActivity.this, HomePageAdminActivity.class));
             finish();
+        } else if (view == cancel) {
+            dialogBuilder = new MaterialAlertDialogBuilder(this);
+            dialogBuilder.setMessage("هل تريد إلغاء هذا الطلب؟");
+            dialogBuilder.setTitle("الطلب");
+            dialogBuilder.setCancelable(false);
+            dialogBuilder.setPositiveButton("نعم", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    for (ProductOrder o : productOrderList)
+                        o.setOrderSituation("تم إلغاء الشحنة");
+                    firestore.collection("Orders")
+                            .document(getIntent().getStringExtra("orderId")).update(
+                                    "orderSituation", "تم إلغاء الشحنة",
+                                    "deliveryBoyId", FirebaseAuth.getInstance().getCurrentUser().getUid(),
+                                    "productOrders", productOrderList
+                            );
+                    startActivity(new Intent(OrderInfoActivity.this,
+                            HomePageAdminActivity.class));
+                    finish();
+                }
+            });
+
+            dialogBuilder.setNegativeButton("لا", (DialogInterface.OnClickListener) (dialog, which) -> {
+                // If user click no then dialog box is canceled.
+                dialog.cancel();
+            });
+
+            alertDialog = dialogBuilder.create();
+            alertDialog.show();
         }
     }
 

@@ -7,16 +7,18 @@ public class Order {
     private String idOrder;
     private String idClient;
     private List<ProductOrder> productOrders;
+    private float total;
     private String orderSituation;
     private String deliveryBoyId;
 
     public Order() {
     }
 
-    public Order(String idOrder, String idClient, List<ProductOrder> productOrders, String orderSituation, String deliveryBoyId) {
+    public Order(String idOrder, String idClient, List<ProductOrder> productOrders, float total, String orderSituation, String deliveryBoyId) {
         this.idOrder = idOrder;
         this.idClient = idClient;
         this.productOrders = productOrders;
+        this.total = total;
         this.orderSituation = orderSituation;
         this.deliveryBoyId = deliveryBoyId;
     }
@@ -59,5 +61,13 @@ public class Order {
 
     public void setDeliveryBoyId(String deliveryBoyId) {
         this.deliveryBoyId = deliveryBoyId;
+    }
+
+    public float getTotal() {
+        return total;
+    }
+
+    public void setTotal(float total) {
+        this.total = total;
     }
 }

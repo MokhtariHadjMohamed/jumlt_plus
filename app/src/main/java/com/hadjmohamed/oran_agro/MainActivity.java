@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                                 progressDialog.dismiss();
                             finish();
                         } else if (user.getType().equals("admin") || user.getType().equals("employee")) {
-                            startActivity(new Intent(MainActivity.this, ExpensesActivity.class));
+                            startActivity(new Intent(MainActivity.this, HomePageAdminActivity.class));
                             if (progressDialog.isShowing())
                                 progressDialog.dismiss();
                             finish();

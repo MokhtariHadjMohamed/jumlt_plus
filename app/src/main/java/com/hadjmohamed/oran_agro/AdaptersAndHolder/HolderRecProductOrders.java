@@ -10,15 +10,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.hadjmohamed.oran_agro.R;
 import com.hadjmohamed.oran_agro.RecViewInterface;
 
-public class HolderRecOrders extends RecyclerView.ViewHolder {
+public class HolderRecProductOrders extends RecyclerView.ViewHolder {
 
-    TextView name, total, orderSituation;
+    ImageView imageView;
+    TextView productName, priceProduct, orderSituation, qnt;
 
-    public HolderRecOrders(@NonNull View itemView, RecViewInterface recViewInterface) {
+    public HolderRecProductOrders(@NonNull View itemView, RecViewInterface recViewInterface) {
         super(itemView);
-        name = itemView.findViewById(R.id.c1);
-        total = itemView.findViewById(R.id.c2);
-        orderSituation = itemView.findViewById(R.id.c3);
+        imageView = itemView.findViewById(R.id.productImageRec);
+        productName = itemView.findViewById(R.id.productNameRec);
+        priceProduct = itemView.findViewById(R.id.productPriceRec);
+        orderSituation = itemView.findViewById(R.id.orderSituation);
+        qnt = itemView.findViewById(R.id.productQuntRec);
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override

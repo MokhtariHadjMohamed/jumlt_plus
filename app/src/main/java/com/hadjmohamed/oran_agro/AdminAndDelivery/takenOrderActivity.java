@@ -34,7 +34,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.hadjmohamed.oran_agro.AdaptersAndHolder.AdapterRecOrders;
+import com.hadjmohamed.oran_agro.AdaptersAndHolder.AdapterRecProductOrders;
 import com.hadjmohamed.oran_agro.Order;
 import com.hadjmohamed.oran_agro.ProductOrder;
 import com.hadjmohamed.oran_agro.R;
@@ -46,14 +46,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class takenOrderDeliveryBoyActivity extends AppCompatActivity implements View.OnClickListener, RecViewInterface {
+public class takenOrderActivity extends AppCompatActivity implements View.OnClickListener, RecViewInterface {
 
     private TextView orderId, totalOrder, userName, userPhoneNumber;
     private Button submit, goBtn;
     private FirebaseFirestore firestore;
     private ImageView btnGoBack;
     private List<ProductOrder> productOrderList;
-    private AdapterRecOrders adapterRecOrders;
+    private AdapterRecProductOrders adapterRecOrders;
     private ProgressDialog progressDialog;
     private RecyclerView recyclerView;
     //dialog variable
@@ -100,7 +100,7 @@ public class takenOrderDeliveryBoyActivity extends AppCompatActivity implements 
         recyclerView = findViewById(R.id.recViewTakenOrderDeliveryBoy);
         firestore = FirebaseFirestore.getInstance();
         productOrderList = new ArrayList<>();
-        adapterRecOrders = new AdapterRecOrders(getApplicationContext(),
+        adapterRecOrders = new AdapterRecProductOrders(getApplicationContext(),
                 productOrderList, this);
 
         loadOrder();
@@ -129,7 +129,7 @@ public class takenOrderDeliveryBoyActivity extends AppCompatActivity implements 
                                     FirebaseAuth.getInstance().getCurrentUser().getUid(),
                                     "productOrders", productOrderList
                             );
-                    startActivity(new Intent(takenOrderDeliveryBoyActivity.this,
+                    startActivity(new Intent(takenOrderActivity.this,
                             HomePageAdminActivity.class));
                     finish();
                 }
@@ -143,7 +143,7 @@ public class takenOrderDeliveryBoyActivity extends AppCompatActivity implements 
             alertDialog = dialogBuilder.create();
             alertDialog.show();
         } else if (view == btnGoBack) {
-            startActivity(new Intent(takenOrderDeliveryBoyActivity.this,
+            startActivity(new Intent(takenOrderActivity.this,
                     OrdersActivity.class));
             finish();
         }else if (view == goBtn){
@@ -204,7 +204,7 @@ public class takenOrderDeliveryBoyActivity extends AppCompatActivity implements 
             @Override
             public void onSuccess(Location location) {
                 if (location != null) {
-                    Geocoder geocoder = new Geocoder(takenOrderDeliveryBoyActivity.this,
+                    Geocoder geocoder = new Geocoder(takenOrderActivity.this,
                             Locale.getDefault());
                     try {
                         List<Address> addressList = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), FINE_PERMISSION_CODE);
