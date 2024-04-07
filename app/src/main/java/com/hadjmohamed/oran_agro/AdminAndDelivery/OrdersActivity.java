@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Filter;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -32,11 +33,14 @@ import com.hadjmohamed.oran_agro.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class OrdersActivity extends AppCompatActivity implements RecViewInterface, View.OnClickListener {
 
     // TODO Firebase Declaration
     private FirebaseFirestore firestore;
+    private FirebaseAuth auth;
+    private User user;
     // TODO RecyclerView Declaration
     private RecyclerView recyclerViewTable;
     private AdapterRecOrders adapterRecOrders;
@@ -55,6 +59,7 @@ public class OrdersActivity extends AppCompatActivity implements RecViewInterfac
 
         // TODO Firebase
         firestore = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
 
         // TODO ProgressDialog
         progressDialog = new ProgressDialog(this);
@@ -67,7 +72,16 @@ public class OrdersActivity extends AppCompatActivity implements RecViewInterfac
         orderList = new ArrayList<>();
         adapterRecOrders = new AdapterRecOrders(this,
                 orderList, this);
-        getOrder();
+        getUser().thenAccept(type -> {
+            if (type.equals("deliveryBoy"))
+                getOrderDeliveryBoy();
+            else
+                getOrder();
+        }).exceptionally(throwable -> {
+            Log.e(TAG, "onCreate: " + throwable);
+            return null;
+        });
+
 
         // TODO Element
         home = findViewById(R.id.homeOrdersActivity);
@@ -91,10 +105,58 @@ public class OrdersActivity extends AppCompatActivity implements RecViewInterfac
         });
     }
 
+    private CompletableFuture<String> getUser() {
+        CompletableFuture<String> future = new CompletableFuture<>();
+        firestore.collection("Users")
+                .document(auth.getCurrentUser().getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (!task.isSuccessful()) {
+                            Log.e(TAG, "onComplete: error get user orders");
+                            return;
+                        }
+                        user = task.getResult().toObject(User.class);
+                        future.complete(user.getType());
+                    }
+                });
+        return future;
+    }
+
     private void getOrder() {
         orderList.clear();
         firestore.collection("Orders")
                 .orderBy("idOrder", Query.Direction.ASCENDING)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (!task.isSuccessful()) {
+                            Log.e("Task Failed", String.valueOf(task.getException()));
+                            if (progressDialog.isShowing())
+                                progressDialog.dismiss();
+                        }
+                        for (DocumentSnapshot dc :
+                                task.getResult().getDocuments()) {
+                            orderList.add(dc.toObject(Order.class));
+                        }
+                        if (progressDialog.isShowing())
+                            progressDialog.dismiss();
+                        adapterRecOrders.notifyDataSetChanged();
+                    }
+                });
+        recyclerViewTable.setLayoutManager(new
+                LinearLayoutManager(OrdersActivity.this,
+                LinearLayoutManager.VERTICAL, false));
+        recyclerViewTable.setAdapter(adapterRecOrders);
+    }
+
+    private void getOrderDeliveryBoy() {
+        orderList.clear();
+        firestore.collection("Orders")
+                .orderBy("idOrder", Query.Direction.ASCENDING)
+                .whereEqualTo("deliveryBoyId", auth.getCurrentUser().getUid())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -148,6 +210,36 @@ public class OrdersActivity extends AppCompatActivity implements RecViewInterfac
         recyclerViewTable.setAdapter(adapterRecOrders);
     }
 
+    private void getOrderDeliveryBoy(String s) {
+        orderList.clear();
+        firestore.collection("Orders")
+                .orderBy("idOrder", Query.Direction.ASCENDING)
+                .whereEqualTo("orderSituation", s)
+                .whereEqualTo("deliveryBoyId", auth.getCurrentUser().getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (!task.isSuccessful()) {
+                            Log.e("Task Failed", String.valueOf(task.getException()));
+                            if (progressDialog.isShowing())
+                                progressDialog.dismiss();
+                        }
+                        for (DocumentSnapshot dc :
+                                task.getResult().getDocuments()) {
+                            orderList.add(dc.toObject(Order.class));
+                        }
+                        if (progressDialog.isShowing())
+                            progressDialog.dismiss();
+                        adapterRecOrders.notifyDataSetChanged();
+                    }
+                });
+        recyclerViewTable.setLayoutManager(new
+                LinearLayoutManager(OrdersActivity.this,
+                LinearLayoutManager.VERTICAL, false));
+        recyclerViewTable.setAdapter(adapterRecOrders);
+    }
+
     private void getExpensesByNameUser(String s) {
         firestore.collection("Users")
                 .where(Filter.and(
@@ -165,7 +257,10 @@ public class OrdersActivity extends AppCompatActivity implements RecViewInterfac
                             Log.e(TAG, "Error on get on expenses");
                         }
                         for (QueryDocumentSnapshot d : task.getResult())
-                            getOrderSearch(d.toObject(User.class).getIdUser());
+                            if (user.getType().equals("deliveryBoy"))
+                                getOrderDeliveryBoySearch(d.toObject(User.class).getIdUser());
+                            else
+                                getOrderSearch(d.toObject(User.class).getIdUser());
                     }
                 });
     }
@@ -199,11 +294,41 @@ public class OrdersActivity extends AppCompatActivity implements RecViewInterfac
         recyclerViewTable.setAdapter(adapterRecOrders);
     }
 
+    private void getOrderDeliveryBoySearch(String uid) {
+        orderList.clear();
+        firestore.collection("Orders")
+                .orderBy("idOrder", Query.Direction.ASCENDING)
+                .whereEqualTo("idClient", uid)
+                .whereEqualTo("deliveryBoyId", auth.getCurrentUser().getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (!task.isSuccessful()) {
+                            Log.e("Task Failed", String.valueOf(task.getException()));
+                            if (progressDialog.isShowing())
+                                progressDialog.dismiss();
+                        }
+                        for (DocumentSnapshot dc :
+                                task.getResult().getDocuments()) {
+                            orderList.add(dc.toObject(Order.class));
+                        }
+                        if (progressDialog.isShowing())
+                            progressDialog.dismiss();
+                        adapterRecOrders.notifyDataSetChanged();
+                    }
+                });
+        recyclerViewTable.setLayoutManager(new
+                LinearLayoutManager(OrdersActivity.this,
+                LinearLayoutManager.VERTICAL, false));
+        recyclerViewTable.setAdapter(adapterRecOrders);
+    }
+
     @Override
     public void onItemClick(String view, int position) {
         if (orderList.get(position).getOrderSituation().equals("في انتظار الشحن")
-        || orderList.get(position).getOrderSituation().equals("تم إلغاء الشحنة")
-        || orderList.get(position).getOrderSituation().equals("تم توصيل")){
+                || orderList.get(position).getOrderSituation().equals("تم إلغاء الشحنة")
+                || orderList.get(position).getOrderSituation().equals("تم توصيل")) {
             Intent intent = new Intent(OrdersActivity.this, OrderInfoActivity.class);
             intent.putExtra("orderId", orderList.get(position).getIdOrder());
             intent.putExtra("clientId", orderList.get(position).getIdClient());
@@ -225,23 +350,36 @@ public class OrdersActivity extends AppCompatActivity implements RecViewInterfac
         } else if (view == category) {
             switch (textCategory.getText().toString()) {
                 case "كل":
-                    getOrder("في انتظار الشحن");
-                    textCategory.setText("في انتظار الشحن");
-                    break;
+                    if (!user.getType().equals("deliveryBoy")) {
+                        getOrder("في انتظار الشحن");
+                        textCategory.setText("في انتظار الشحن");
+                        break;
+                    }
                 case "في انتظار الشحن":
-                    getOrder("تم شحن");
+                    if (user.getType().equals("deliveryBoy"))
+                        getOrderDeliveryBoy("تم شحن");
+                    else
+                        getOrder("تم شحن");
                     textCategory.setText("تم شحن");
                     break;
                 case "تم شحن":
-                    getOrder("تم توصيل");
+                    if (user.getType().equals("deliveryBoy"))
+                        getOrderDeliveryBoy("تم توصيل");
+                    else
+                        getOrder("تم توصيل");
                     textCategory.setText("تم توصيل");
                     break;
                 case "تم توصيل":
-                    getOrder("تم إلغاء الشحنة");
-                    textCategory.setText("تم إلغاء الشحنة");
-                    break;
+                    if (!user.getType().equals("deliveryBoy")) {
+                        getOrder("تم إلغاء الشحنة");
+                        textCategory.setText("تم إلغاء الشحنة");
+                        break;
+                    }
                 case "تم إلغاء الشحنة":
-                    getOrder();
+                    if (user.getType().equals("deliveryBoy"))
+                        getOrderDeliveryBoy();
+                    else
+                        getOrder();
                     textCategory.setText("كل");
                     break;
             }

@@ -60,7 +60,6 @@ public class AdapterRecTableSales extends RecyclerView.Adapter<HolderRecTableSal
     private CompletableFuture<String> getDeliveryBoy(String uid) {
         CompletableFuture<String> future = new CompletableFuture<>();
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-        final String[] name = new String[1];
         firestore.collection("Users")
                 .document(uid)
                 .get()

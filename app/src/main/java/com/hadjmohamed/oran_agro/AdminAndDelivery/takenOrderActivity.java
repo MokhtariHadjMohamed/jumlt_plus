@@ -66,7 +66,7 @@ public class takenOrderActivity extends AppCompatActivity implements View.OnClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_taken_order_delivery_boy);
+        setContentView(R.layout.activity_taken_order);
 
         orderId = findViewById(R.id.IdTakenOrderDeliveryBoy);
         orderId.setText(getIntent().getStringExtra("orderId"));

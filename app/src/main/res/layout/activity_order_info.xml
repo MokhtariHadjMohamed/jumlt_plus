@@ -60,7 +60,9 @@
         android:id="@+id/recViewOrderInfoPage"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/takeOrderInfoDeliveryBoy"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerDeliveryBoyOrderInfo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
@@ -69,22 +71,32 @@
         android:id="@+id/takeOrderInfoDeliveryBoy"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:backgroundTint="@color/orangeMy"
         android:text="تأكيد الشحن"
         android:textColor="@color/whiteMy"
-        app:layout_constraintBottom_toTopOf="@+id/cancelOrderInfoDeliveryBoy"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/cancelOrderInfoDeliveryBoy" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/cancelOrderInfoDeliveryBoy"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/design_default_color_error"
         android:text="إلغاء الشحنة"
         android:textColor="@color/whiteMy"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/takeOrderInfoDeliveryBoy" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/takeOrderInfoDeliveryBoy" />
+
+    <Spinner
+        android:id="@+id/spinnerDeliveryBoyOrderInfo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/takeOrderInfoDeliveryBoy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

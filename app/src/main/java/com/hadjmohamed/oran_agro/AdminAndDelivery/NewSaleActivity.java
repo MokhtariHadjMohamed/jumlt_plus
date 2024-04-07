@@ -276,6 +276,7 @@ public class NewSaleActivity extends AppCompatActivity implements RecViewInterfa
     private void getUsers() {
         firestore.collection("Users")
                 .orderBy("name")
+                .whereEqualTo("type", "user")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override

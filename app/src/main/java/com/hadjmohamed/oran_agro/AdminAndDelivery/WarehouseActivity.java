@@ -59,8 +59,8 @@ public class WarehouseActivity extends AppCompatActivity implements View.OnClick
     private RecyclerView recyclerView;
     private AdapterRecTableProduct adapterRecTableProduct;
     private List<Product> productList;
+    // TODO ProgressDialog Declaration
     private ProgressDialog progressDialog;
-
     // TODO Search var
     private String searchVariable;
     private SearchView searchView;
@@ -155,6 +155,7 @@ public class WarehouseActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void getSubCategory(String searchVariable) {
+        progressDialog.dismiss();
         firestore.collection("SubCategory")
                 .whereEqualTo("Name", searchVariable)
                 .get()
@@ -174,14 +175,7 @@ public class WarehouseActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void getProductSearch(String s, int IDCategorie) {
-        // Progress
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setCancelable(false);
-        progressDialog.setMessage("Fetching data...");
-        progressDialog.show();
-
         productList.clear();
-
         firestore.collection("Products")
                 .where(Filter.or(
                         Filter.equalTo("IDCategorie", IDCategorie),
@@ -209,10 +203,6 @@ public class WarehouseActivity extends AppCompatActivity implements View.OnClick
                             progressDialog.dismiss();
                     }
                 });
-
-        if (progressDialog.isShowing())
-            progressDialog.dismiss();
-
         recyclerView.setLayoutManager(new
                 LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false));
@@ -237,17 +227,16 @@ public class WarehouseActivity extends AppCompatActivity implements View.OnClick
                             if (dc.getType() == DocumentChange.Type.ADDED) {
                                 productList.add(dc.getDocument().toObject(Product.class));
                             }
-                            adapterRecTableProduct.notifyDataSetChanged();
                         }
+                        adapterRecTableProduct.notifyDataSetChanged();
+                        if (progressDialog.isShowing())
+                            progressDialog.dismiss();
                     }
                 });
         recyclerView.setLayoutManager(new
                 LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapterRecTableProduct);
-
-        if (progressDialog.isShowing())
-            progressDialog.dismiss();
     }
 
     @Override
@@ -283,6 +272,7 @@ public class WarehouseActivity extends AppCompatActivity implements View.OnClick
         } else if (Objects.equals(view, "category")) {
             if (position == 0){
                 getProduct();
+                dialogCategory.dismiss();
             }else {
                 getSubCategory(categoryList.get(position).getName());
                 categoryTextWarehouse.setText(categoryList.get(position).getName());

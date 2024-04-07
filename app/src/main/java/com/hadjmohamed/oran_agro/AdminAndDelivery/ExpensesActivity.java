@@ -27,6 +27,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Filter;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -38,11 +39,14 @@ import com.hadjmohamed.oran_agro.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class ExpensesActivity extends AppCompatActivity implements RecViewInterface, View.OnClickListener {
 
     // TODO Firebase Declaration
     private FirebaseFirestore firestore;
+    private FirebaseAuth auth;
+    private User user;
     // TODO ProgressDialog Declaration
     private ProgressDialog progressDialog;
     // TODO Recycle View Declaration variables
@@ -65,6 +69,7 @@ public class ExpensesActivity extends AppCompatActivity implements RecViewInterf
         setContentView(R.layout.activity_expenses);
         // TODO Firebase
         firestore = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
 
         // TODO Progress
         progressDialog = new ProgressDialog(this);
@@ -76,7 +81,17 @@ public class ExpensesActivity extends AppCompatActivity implements RecViewInterf
         recyclerView = findViewById(R.id.recyclerViewExpensesActivity);
         expensesList = new ArrayList<>();
         adapterRecExpenses = new AdapterRecExpenses(this, expensesList, this);
-        getExpenses();
+        getUser().thenAccept(deliveryBoy -> {
+            if (user.getType().equals("admin") || user.getType().equals("employee"))
+                getExpenses();
+            else{
+                getExpensesDeliveryBoy();
+                searchView.setVisibility(View.GONE);
+            }
+        }).exceptionally(exception -> {
+            // Handle exception here
+            return null;
+        });
 
         // TODO Elements
         home = findViewById(R.id.homeExpensesActivity);
@@ -88,7 +103,6 @@ public class ExpensesActivity extends AppCompatActivity implements RecViewInterf
         home.setOnClickListener(this);
         add.setOnClickListener(this);
         category.setOnClickListener(this);
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -126,6 +140,24 @@ public class ExpensesActivity extends AppCompatActivity implements RecViewInterf
 
         submit.setOnClickListener(this);
         cancel.setOnClickListener(this);
+    }
+
+    private CompletableFuture<String> getUser() {
+        CompletableFuture<String> future = new CompletableFuture<>();
+        firestore.collection("Users")
+                .document(auth.getCurrentUser().getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (!task.isSuccessful()) {
+                            Log.e("Error", "get user logged in Sales activity");
+                        }
+                        user = task.getResult().toObject(User.class);
+                        future.complete(user.getType());
+                    }
+                });
+        return future;
     }
 
     private void getExpensesByNameUser(String s) {
@@ -197,6 +229,55 @@ public class ExpensesActivity extends AppCompatActivity implements RecViewInterf
         recyclerView.setAdapter(adapterRecExpenses);
     }
 
+    private void getExpensesDeliveryBoy() {
+        expensesList.clear();
+        firestore.collection("Expenses")
+                .whereEqualTo("userUid", auth.getCurrentUser().getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (!task.isSuccessful()) {
+                            Log.e(TAG, "Error on get on expenses");
+                        }
+                        for (QueryDocumentSnapshot d : task.getResult())
+                            expensesList.add(d.toObject(Expenses.class));
+                        adapterRecExpenses.notifyDataSetChanged();
+                        if (progressDialog.isShowing())
+                            progressDialog.dismiss();
+                    }
+                });
+        recyclerView.setLayoutManager(new
+                LinearLayoutManager(this,
+                LinearLayoutManager.VERTICAL, false));
+        recyclerView.setAdapter(adapterRecExpenses);
+    }
+
+    private void getExpensesDeliveryBoy(String s) {
+        expensesList.clear();
+        firestore.collection("Expenses")
+                .whereEqualTo("type", s)
+                .whereEqualTo("userUid", auth.getCurrentUser().getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (!task.isSuccessful()) {
+                            Log.e(TAG, "Error on get on expenses");
+                        }
+                        for (QueryDocumentSnapshot d : task.getResult())
+                            expensesList.add(d.toObject(Expenses.class));
+                        adapterRecExpenses.notifyDataSetChanged();
+                        if (progressDialog.isShowing())
+                            progressDialog.dismiss();
+                    }
+                });
+        recyclerView.setLayoutManager(new
+                LinearLayoutManager(this,
+                LinearLayoutManager.VERTICAL, false));
+        recyclerView.setAdapter(adapterRecExpenses);
+    }
+
     private void getExpenses(String s) {
         expensesList.clear();
         firestore.collection("Expenses")
@@ -234,15 +315,26 @@ public class ExpensesActivity extends AppCompatActivity implements RecViewInterf
         } else if (view == category) {
             switch (textCategory.getText().toString()) {
                 case "كل":
-                    getExpenses("food");
+                    if (user.getType().equals("admin") || user.getType().equals("employee")) {
+                        getExpenses("food");
+                    } else {
+                        getExpensesDeliveryBoy("food");
+                    }
                     textCategory.setText("food");
                     break;
                 case "food":
-                    getExpenses("gas");
+                    if (user.getType().equals("admin") || user.getType().equals("employee")) {
+                        getExpenses("gas");
+                    } else {
+                        getExpensesDeliveryBoy("gas");
+                    }
                     textCategory.setText("gas");
                     break;
                 case "gas":
-                    getExpenses();
+                    if (user.getType().equals("admin") || user.getType().equals("employee"))
+                        getExpenses();
+                    else
+                        getExpensesDeliveryBoy();
                     textCategory.setText("كل");
                     break;
             }
