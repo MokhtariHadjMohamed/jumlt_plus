@@ -86,18 +86,6 @@ public class OrderInfoActivity extends AppCompatActivity implements View.OnClick
 
         orderId.setText(getIntent().getStringExtra("orderId"));
 
-        if (orderSituation.equals("تم إلغاء الشحنة")) {
-            submit.setText("تم إلغاء الشحنة");
-            submit.setEnabled(false);
-            cancel.setVisibility(View.GONE);
-            cancel.setEnabled(false);
-        } else if (orderSituation.equals("تم توصيل")) {
-            submit.setText("تم توصيل");
-            submit.setEnabled(false);
-            cancel.setVisibility(View.GONE);
-            cancel.setEnabled(false);
-        }
-
         submit.setOnClickListener(this);
         cancel.setOnClickListener(this);
 
@@ -110,13 +98,26 @@ public class OrderInfoActivity extends AppCompatActivity implements View.OnClick
                 nameList);
         getUser();
 
+        if (orderSituation.equals("تم إلغاء الشحنة")) {
+            submit.setText("تم إلغاء الشحنة");
+            submit.setEnabled(false);
+            cancel.setVisibility(View.GONE);
+            cancel.setEnabled(false);
+            deliveryBoy.setVisibility(View.GONE);
+        } else if (orderSituation.equals("تم توصيل")) {
+            submit.setText("تم توصيل");
+            submit.setEnabled(false);
+            cancel.setVisibility(View.GONE);
+            cancel.setEnabled(false);
+            deliveryBoy.setVisibility(View.GONE);
+        }
+
         // TODO toolBar
         Toolbar toolbar = findViewById(R.id.toolbarBack);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
         btnGoBack = findViewById(R.id.btnGoBack);
         btnGoBack.setOnClickListener(this);
-
 
         // TODO Progress
         progressDialog = new ProgressDialog(this);

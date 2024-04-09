@@ -42,7 +42,7 @@
             android:name=".AdminAndDelivery.SalesActivity"
             android:exported="false" />
         <activity
-            android:name=".AdminAndDelivery.takenOrderActivity"
+            android:name=".AdminAndDelivery.TakenOrderActivity"
             android:exported="false" />
         <activity
             android:name=".ProductInSameCategoryActivity"

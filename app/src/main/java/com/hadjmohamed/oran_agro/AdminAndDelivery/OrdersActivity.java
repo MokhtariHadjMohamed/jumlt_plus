@@ -334,8 +334,8 @@ public class OrdersActivity extends AppCompatActivity implements RecViewInterfac
             intent.putExtra("clientId", orderList.get(position).getIdClient());
             intent.putExtra("orderSituation", orderList.get(position).getOrderSituation());
             startActivity(intent);
-        } else {
-            Intent intent = new Intent(OrdersActivity.this, takenOrderActivity.class);
+        } else if (orderList.get(position).getOrderSituation().equals("تم الشحن")){
+            Intent intent = new Intent(OrdersActivity.this, TakenOrderActivity.class);
             intent.putExtra("orderId", orderList.get(position).getIdOrder());
             intent.putExtra("clientId", orderList.get(position).getIdClient());
             startActivity(intent);

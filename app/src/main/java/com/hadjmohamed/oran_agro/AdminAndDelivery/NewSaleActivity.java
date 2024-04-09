@@ -281,8 +281,10 @@ public class NewSaleActivity extends AppCompatActivity implements RecViewInterfa
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (!task.isSuccessful())
+                        if (!task.isSuccessful()){
                             Log.e("Error:", "Field get users");
+                            return;
+                        }
                         for (QueryDocumentSnapshot d : task.getResult()) {
                             namesList.add(d.toObject(User.class).getName());
                             userList.add(d.toObject(User.class));
