@@ -42,12 +42,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.hadjmohamed.oran_agro.AdaptersAndHolder.AdapterRecProductOrders;
-import com.hadjmohamed.oran_agro.Order;
-import com.hadjmohamed.oran_agro.Product;
+import com.hadjmohamed.oran_agro.models.Order;
+import com.hadjmohamed.oran_agro.models.Product;
 import com.hadjmohamed.oran_agro.ProductOrder;
 import com.hadjmohamed.oran_agro.R;
 import com.hadjmohamed.oran_agro.RecViewInterface;
-import com.hadjmohamed.oran_agro.User;
+import com.hadjmohamed.oran_agro.models.Sale;
+import com.hadjmohamed.oran_agro.models.User;
 
 import java.io.IOException;
 import java.util.ArrayList;

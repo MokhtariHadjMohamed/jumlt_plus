@@ -17,14 +17,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.MemoryCacheSettings;
 import com.google.firebase.firestore.PersistentCacheSettings;
-import com.hadjmohamed.oran_agro.AdminAndDelivery.ClientsActivity;
-import com.hadjmohamed.oran_agro.AdminAndDelivery.EmployeesActivity;
-import com.hadjmohamed.oran_agro.AdminAndDelivery.Expenses;
-import com.hadjmohamed.oran_agro.AdminAndDelivery.ExpensesActivity;
 import com.hadjmohamed.oran_agro.AdminAndDelivery.HomePageAdminActivity;
-import com.hadjmohamed.oran_agro.AdminAndDelivery.NewSaleActivity;
-import com.hadjmohamed.oran_agro.AdminAndDelivery.SalesActivity;
-import com.hadjmohamed.oran_agro.AdminAndDelivery.WarehouseActivity;
+import com.hadjmohamed.oran_agro.models.User;
 
 public class MainActivity extends AppCompatActivity {
 

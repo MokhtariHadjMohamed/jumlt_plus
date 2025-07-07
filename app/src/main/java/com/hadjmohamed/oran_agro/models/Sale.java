@@ -1,6 +1,4 @@
-package com.hadjmohamed.oran_agro.AdminAndDelivery;
-
-import com.hadjmohamed.oran_agro.Product;
+package com.hadjmohamed.oran_agro.models;
 
 import java.util.HashMap;
 import java.util.List;

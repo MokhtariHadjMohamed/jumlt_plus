@@ -23,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.hadjmohamed.oran_agro.AdminAndDelivery.HomePageAdminActivity;
+import com.hadjmohamed.oran_agro.models.User;
 
 public class LogInActivity extends AppCompatActivity implements View.OnClickListener {
 

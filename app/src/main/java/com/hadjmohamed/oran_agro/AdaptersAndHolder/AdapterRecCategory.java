@@ -15,7 +15,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.hadjmohamed.oran_agro.Category;
+import com.hadjmohamed.oran_agro.models.Category;
 import com.hadjmohamed.oran_agro.R;
 import com.hadjmohamed.oran_agro.RecViewInterface;
 

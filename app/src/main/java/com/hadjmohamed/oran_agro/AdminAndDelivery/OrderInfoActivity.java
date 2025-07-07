@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -31,11 +30,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.hadjmohamed.oran_agro.AdaptersAndHolder.AdapterRecProductOrders;
-import com.hadjmohamed.oran_agro.Order;
+import com.hadjmohamed.oran_agro.models.Order;
 import com.hadjmohamed.oran_agro.ProductOrder;
 import com.hadjmohamed.oran_agro.R;
 import com.hadjmohamed.oran_agro.RecViewInterface;
-import com.hadjmohamed.oran_agro.User;
+import com.hadjmohamed.oran_agro.models.User;
 
 import java.util.ArrayList;
 import java.util.List;

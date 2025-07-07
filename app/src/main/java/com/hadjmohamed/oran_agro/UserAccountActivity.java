@@ -19,6 +19,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.hadjmohamed.oran_agro.models.User;
 
 public class UserAccountActivity extends AppCompatActivity implements View.OnClickListener {
 

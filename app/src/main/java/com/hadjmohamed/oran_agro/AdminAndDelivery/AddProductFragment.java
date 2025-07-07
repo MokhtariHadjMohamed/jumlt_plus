@@ -10,7 +10,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -31,7 +30,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -39,12 +37,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.hadjmohamed.oran_agro.Category;
-import com.hadjmohamed.oran_agro.Product;
+import com.hadjmohamed.oran_agro.models.Category;
+import com.hadjmohamed.oran_agro.models.Product;
 import com.hadjmohamed.oran_agro.R;
-import com.hadjmohamed.oran_agro.User;
-
-import org.checkerframework.checker.units.qual.C;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

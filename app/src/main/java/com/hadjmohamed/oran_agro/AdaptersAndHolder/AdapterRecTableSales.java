@@ -12,10 +12,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.hadjmohamed.oran_agro.AdminAndDelivery.Sale;
+import com.hadjmohamed.oran_agro.models.Sale;
 import com.hadjmohamed.oran_agro.R;
 import com.hadjmohamed.oran_agro.RecViewInterface;
-import com.hadjmohamed.oran_agro.User;
+import com.hadjmohamed.oran_agro.models.User;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;

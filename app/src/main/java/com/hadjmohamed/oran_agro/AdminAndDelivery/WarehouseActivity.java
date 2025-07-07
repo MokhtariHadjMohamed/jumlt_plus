@@ -33,8 +33,8 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.hadjmohamed.oran_agro.AdaptersAndHolder.AdapterRecCategory;
 import com.hadjmohamed.oran_agro.AdaptersAndHolder.AdapterRecTableProduct;
-import com.hadjmohamed.oran_agro.Category;
-import com.hadjmohamed.oran_agro.Product;
+import com.hadjmohamed.oran_agro.models.Category;
+import com.hadjmohamed.oran_agro.models.Product;
 import com.hadjmohamed.oran_agro.R;
 import com.hadjmohamed.oran_agro.RecViewInterface;
 

@@ -16,9 +16,7 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.hadjmohamed.oran_agro.R;
-import com.hadjmohamed.oran_agro.User;
-
-import java.util.Objects;
+import com.hadjmohamed.oran_agro.models.User;
 
 public class AddUserFragment extends Fragment implements View.OnClickListener {
 

@@ -1,4 +1,4 @@
-package com.hadjmohamed.oran_agro.AdminAndDelivery;
+package com.hadjmohamed.oran_agro.models;
 
 public class Expenses {
     private String uid, userUid;

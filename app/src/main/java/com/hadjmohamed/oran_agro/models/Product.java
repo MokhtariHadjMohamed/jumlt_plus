@@ -1,9 +1,6 @@
-package com.hadjmohamed.oran_agro;
-
-import android.net.Uri;
+package com.hadjmohamed.oran_agro.models;
 
 import java.util.HashMap;
-import java.util.Objects;
 
 public class Product {
 

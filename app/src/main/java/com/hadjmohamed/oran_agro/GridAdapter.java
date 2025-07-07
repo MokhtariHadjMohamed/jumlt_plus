@@ -3,7 +3,6 @@ package com.hadjmohamed.oran_agro;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +18,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.hadjmohamed.oran_agro.models.Product;
 
 import java.io.File;
 import java.io.IOException;

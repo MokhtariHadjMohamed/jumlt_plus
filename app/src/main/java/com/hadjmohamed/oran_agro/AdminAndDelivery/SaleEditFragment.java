@@ -29,9 +29,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.hadjmohamed.oran_agro.AdaptersAndHolder.AdapterRecTableProduct;
-import com.hadjmohamed.oran_agro.Product;
+import com.hadjmohamed.oran_agro.models.Client;
+import com.hadjmohamed.oran_agro.models.Product;
 import com.hadjmohamed.oran_agro.R;
 import com.hadjmohamed.oran_agro.RecViewInterface;
+import com.hadjmohamed.oran_agro.models.Sale;
 
 import java.util.ArrayList;
 import java.util.List;

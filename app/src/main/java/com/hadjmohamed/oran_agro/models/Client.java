@@ -1,8 +1,4 @@
-package com.hadjmohamed.oran_agro.AdminAndDelivery;
-
-import com.hadjmohamed.oran_agro.User;
-
-import java.util.HashMap;
+package com.hadjmohamed.oran_agro.models;
 
 public class Client extends User {
 

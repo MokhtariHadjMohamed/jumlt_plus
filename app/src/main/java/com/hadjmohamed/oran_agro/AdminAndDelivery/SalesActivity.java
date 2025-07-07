@@ -24,7 +24,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.hadjmohamed.oran_agro.AdaptersAndHolder.AdapterRecTableSales;
 import com.hadjmohamed.oran_agro.R;
 import com.hadjmohamed.oran_agro.RecViewInterface;
-import com.hadjmohamed.oran_agro.User;
+import com.hadjmohamed.oran_agro.models.Sale;
+import com.hadjmohamed.oran_agro.models.User;
 
 import java.util.ArrayList;
 import java.util.List;

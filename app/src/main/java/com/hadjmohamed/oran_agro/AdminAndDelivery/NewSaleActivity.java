@@ -22,11 +22,12 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.hadjmohamed.oran_agro.AdaptersAndHolder.AdapterRecProduct;
 import com.hadjmohamed.oran_agro.AdaptersAndHolder.AdapterRecTableProduct;
-import com.hadjmohamed.oran_agro.Category;
-import com.hadjmohamed.oran_agro.Product;
+import com.hadjmohamed.oran_agro.models.Category;
+import com.hadjmohamed.oran_agro.models.Product;
 import com.hadjmohamed.oran_agro.R;
 import com.hadjmohamed.oran_agro.RecViewInterface;
-import com.hadjmohamed.oran_agro.User;
+import com.hadjmohamed.oran_agro.models.Sale;
+import com.hadjmohamed.oran_agro.models.User;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;

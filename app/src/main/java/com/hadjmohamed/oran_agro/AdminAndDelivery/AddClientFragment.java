@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.hadjmohamed.oran_agro.R;
+import com.hadjmohamed.oran_agro.models.Client;
 
 public class AddClientFragment extends Fragment implements View.OnClickListener {
 

@@ -15,7 +15,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.hadjmohamed.oran_agro.R;
-import com.hadjmohamed.oran_agro.User;
+import com.hadjmohamed.oran_agro.models.User;
 
 public class HomePageAdminActivity extends AppCompatActivity implements View.OnClickListener {
 

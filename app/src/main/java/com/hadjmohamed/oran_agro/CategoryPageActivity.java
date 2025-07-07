@@ -18,6 +18,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.hadjmohamed.oran_agro.AdaptersAndHolder.AdapterRecCategory;
+import com.hadjmohamed.oran_agro.models.Category;
+import com.hadjmohamed.oran_agro.models.User;
 
 import java.util.ArrayList;
 import java.util.List;
