@@ -18,6 +18,7 @@ import com.google.firebase.storage.StorageReference;
 import com.hadjmohamed.oran_agro.models.Product;
 import com.hadjmohamed.oran_agro.R;
 import com.hadjmohamed.oran_agro.RecViewInterface;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,7 +46,16 @@ public class AdapterRecProduct extends RecyclerView.Adapter<HolderRecProduct> {
     @Override
     public void onBindViewHolder(@NonNull HolderRecProduct holder, int position) {
 
-        retrieveImage(holder.imageView, productList.get(position).getNameProduct());
+
+        if (productList.get(position) == null || productList.get(position).getImageUrl() == null || productList.get(position).getImageUrl().isEmpty())
+            holder.imageView.setImageResource(R.drawable.baseline_image_not_supported_24);
+        else
+            Picasso.get()
+                    .load(productList.get(position).getImageUrl())
+                    .placeholder(R.drawable.loading_image)
+                    .error(R.drawable.baseline_image_not_supported_24)
+                    .into(holder.imageView);
+
         holder.productName.setText(productList.get(position).getNameProduct());
         holder.productPriceCarton.setText(productList.get(position).getPrixCarton() + "");
         holder.productPricePiece.setText(productList.get(position).getPrixUnitaire() + "");
@@ -56,30 +66,4 @@ public class AdapterRecProduct extends RecyclerView.Adapter<HolderRecProduct> {
         return productList.size();
     }
 
-    private void retrieveImage(ImageView imageView, String image) {
-        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
-        StorageReference storageReference = firebaseStorage.getReference().child("Image")
-                .child(image + ".png");
-
-        final File file;
-        try {
-            file = File.createTempFile("img", ".png");
-
-            storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    imageView.setImageBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    imageView.setImageResource(R.drawable.baseline_image_not_supported_24);
-                    Log.e("Image", e.getMessage());
-                }
-            });
-        } catch (IOException e) {
-            imageView.setImageResource(R.drawable.baseline_image_not_supported_24);
-            throw new RuntimeException(e);
-        }
-    }
 }

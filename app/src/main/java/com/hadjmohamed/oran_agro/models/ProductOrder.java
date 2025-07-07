@@ -1,4 +1,4 @@
-package com.hadjmohamed.oran_agro;
+package com.hadjmohamed.oran_agro.models;
 
 public class ProductOrder {
     private String idOrder;

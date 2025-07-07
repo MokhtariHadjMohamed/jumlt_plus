@@ -29,6 +29,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.hadjmohamed.oran_agro.AdaptersAndHolder.AdapterRecProductOrders;
 import com.hadjmohamed.oran_agro.models.Order;
+import com.hadjmohamed.oran_agro.models.ProductOrder;
 
 import java.util.ArrayList;
 import java.util.List;

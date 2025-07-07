@@ -1,7 +1,5 @@
 package com.hadjmohamed.oran_agro.models;
 
-import com.hadjmohamed.oran_agro.ProductOrder;
-
 import java.util.List;
 
 public class Order {

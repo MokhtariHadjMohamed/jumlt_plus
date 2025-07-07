@@ -326,7 +326,7 @@ public class OrdersActivity extends AppCompatActivity implements RecViewInterfac
 
     @Override
     public void onItemClick(String view, int position) {
-        if (orderList.get(position).getOrderSituation().equals("في انتظار الشحن")
+        if (orderList.get(position).getOrderSituation().equals("في انتظار شحن")
                 || orderList.get(position).getOrderSituation().equals("تم إلغاء الشحنة")
                 || orderList.get(position).getOrderSituation().equals("تم توصيل")) {
             Intent intent = new Intent(OrdersActivity.this, OrderInfoActivity.class);
@@ -334,7 +334,7 @@ public class OrdersActivity extends AppCompatActivity implements RecViewInterfac
             intent.putExtra("clientId", orderList.get(position).getIdClient());
             intent.putExtra("orderSituation", orderList.get(position).getOrderSituation());
             startActivity(intent);
-        } else if (orderList.get(position).getOrderSituation().equals("تم الشحن")){
+        } else if (orderList.get(position).getOrderSituation().equals("تم شحن")){
             Intent intent = new Intent(OrdersActivity.this, TakenOrderActivity.class);
             intent.putExtra("orderId", orderList.get(position).getIdOrder());
             intent.putExtra("clientId", orderList.get(position).getIdClient());

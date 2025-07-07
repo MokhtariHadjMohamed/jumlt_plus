@@ -8,18 +8,20 @@ public class Product {
     private int Quantite, IDCategorie;
     private Float PrixUnitaire, PrixCarton;
     private String NameProduct;
+    private String ImageUrl;
 
     public Product() {
     }
 
     public Product(String idProduct, int quantite, Float PrixUnitaire, Float PrixCarton,
-                   int IDCategorie, String NameProduct) {
+                   int IDCategorie, String NameProduct, String ImageUrl) {
         this.idProduct = idProduct;
         this.Quantite = quantite;
         this.PrixUnitaire = PrixUnitaire;
         this.PrixCarton = PrixCarton;
         this.IDCategorie = IDCategorie;
         this.NameProduct = NameProduct;
+        this.ImageUrl = ImageUrl;
     }
 
     public String getIdProduct() {
@@ -70,6 +72,14 @@ public class Product {
         this.NameProduct = NameProduct;
     }
 
+    public void setImageUrl(String ImageUrl) {
+        this.ImageUrl = ImageUrl;
+    }
+
+    public String getImageUrl() {
+        return ImageUrl;
+    }
+
     public HashMap<String, Object> toHashMap(){
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("idProduct", this.idProduct);
@@ -78,6 +88,7 @@ public class Product {
         hashMap.put("PrixUnitaire", this.PrixUnitaire);
         hashMap.put("PrixCarton", this.PrixCarton);
         hashMap.put("IDCategorie", this.IDCategorie);
+        hashMap.put("ImageUrl", this.ImageUrl);
         return hashMap;
     }
 }

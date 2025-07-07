@@ -8,19 +8,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.hadjmohamed.oran_agro.LogInActivity;
 import com.hadjmohamed.oran_agro.R;
+import com.hadjmohamed.oran_agro.UserAccountActivity;
 import com.hadjmohamed.oran_agro.models.User;
 
 public class HomePageAdminActivity extends AppCompatActivity implements View.OnClickListener {
 
     private CardView sales, warehouse, newSale, expenses, employees,
             deletedSales, clients, aboutProducts, orders, ordersDeliveryBoy;
+    private Button singOutAdmin;
 
     // TODO Firebase
     private FirebaseFirestore firestore;
@@ -45,12 +49,15 @@ public class HomePageAdminActivity extends AppCompatActivity implements View.OnC
         orders = findViewById(R.id.ordersHomeActivity);
         ordersDeliveryBoy = findViewById(R.id.ordersDeliveryBoyHomeActivity);
 
+        singOutAdmin = findViewById(R.id.singOutAdmin);
+
         sales.setOnClickListener(this);
         newSale.setOnClickListener(this);
         expenses.setOnClickListener(this);
         clients.setOnClickListener(this);
         aboutProducts.setOnClickListener(this);
         ordersDeliveryBoy.setOnClickListener(this);
+        singOutAdmin.setOnClickListener(this);
 
         getUserType();
     }
@@ -95,6 +102,10 @@ public class HomePageAdminActivity extends AppCompatActivity implements View.OnC
             startActivity(new Intent(this, AboutProductsActivity.class));
         } else if (view == orders || view == ordersDeliveryBoy) {
             startActivity(new Intent(this, OrdersActivity.class));
+        } else if (view == singOutAdmin){
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(this, LogInActivity.class));
+            finish();
         }
     }
 }

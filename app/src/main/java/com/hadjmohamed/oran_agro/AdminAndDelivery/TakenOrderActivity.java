@@ -44,7 +44,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.hadjmohamed.oran_agro.AdaptersAndHolder.AdapterRecProductOrders;
 import com.hadjmohamed.oran_agro.models.Order;
 import com.hadjmohamed.oran_agro.models.Product;
-import com.hadjmohamed.oran_agro.ProductOrder;
+import com.hadjmohamed.oran_agro.models.ProductOrder;
 import com.hadjmohamed.oran_agro.R;
 import com.hadjmohamed.oran_agro.RecViewInterface;
 import com.hadjmohamed.oran_agro.models.Sale;

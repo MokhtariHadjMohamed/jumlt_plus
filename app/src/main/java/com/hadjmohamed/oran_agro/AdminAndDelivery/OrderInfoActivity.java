@@ -31,7 +31,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.hadjmohamed.oran_agro.AdaptersAndHolder.AdapterRecProductOrders;
 import com.hadjmohamed.oran_agro.models.Order;
-import com.hadjmohamed.oran_agro.ProductOrder;
+import com.hadjmohamed.oran_agro.models.ProductOrder;
 import com.hadjmohamed.oran_agro.R;
 import com.hadjmohamed.oran_agro.RecViewInterface;
 import com.hadjmohamed.oran_agro.models.User;

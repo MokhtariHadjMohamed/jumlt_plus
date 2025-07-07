@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         // TODO Progress
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
-        progressDialog.setMessage("Fetching data...");
+        progressDialog.setMessage("Login...");
         progressDialog.show();
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
@@ -59,8 +59,9 @@ public class MainActivity extends AppCompatActivity {
             testUser(FirebaseAuth.getInstance().getCurrentUser().getUid());
         }else {
             startActivity(new Intent(MainActivity.this, LogInActivity.class));
-            if (progressDialog.isShowing())
+            if (progressDialog.isShowing()) {
                 progressDialog.dismiss();
+            }
         }
     }
 

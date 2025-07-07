@@ -22,6 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.hadjmohamed.oran_agro.AdaptersAndHolder.GridAdapter;
 import com.hadjmohamed.oran_agro.models.Product;
 
 import java.util.ArrayList;
@@ -102,7 +103,7 @@ public class HomePageActivity extends AppCompatActivity implements AdapterView.O
         // Progress
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
-        progressDialog.setMessage("Fetching data...");
+        progressDialog.setMessage("Getting data...");
         progressDialog.show();
 
         // GridView
@@ -112,6 +113,7 @@ public class HomePageActivity extends AppCompatActivity implements AdapterView.O
         gridAdapter = new GridAdapter(HomePageActivity.this, products);
 
         getProduct();
+
     }
 
     private void getProduct() {

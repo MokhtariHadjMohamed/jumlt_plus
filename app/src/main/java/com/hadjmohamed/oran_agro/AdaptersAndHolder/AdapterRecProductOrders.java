@@ -10,14 +10,20 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.hadjmohamed.oran_agro.ProductOrder;
+import com.hadjmohamed.oran_agro.models.Product;
+import com.hadjmohamed.oran_agro.models.ProductOrder;
 import com.hadjmohamed.oran_agro.R;
 import com.hadjmohamed.oran_agro.RecViewInterface;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
@@ -50,7 +56,9 @@ public class AdapterRecProductOrders extends RecyclerView.Adapter<HolderRecProdu
         holder.priceProduct.setText(productList.get(position).getProductPrice() + "");
         holder.orderSituation.setText(productList.get(position).getOrderSituation());
         holder.qnt.setText(String.valueOf(productList.get(position).getQuantity()));
-        retrieveImage(holder.imageView, productList.get(position).getProductName());
+
+
+        getProduct(productList.get(position).getIdProduct(), holder.imageView);
     }
 
     @Override
@@ -58,31 +66,28 @@ public class AdapterRecProductOrders extends RecyclerView.Adapter<HolderRecProdu
         return productList.size();
     }
 
-    private void retrieveImage(ImageView imageView, String image) {
-        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
-        StorageReference storageReference = firebaseStorage.getReference().child("Image")
-                .child(image + ".png");
+    private void getProduct(String uid, ImageView imageView) {
+        FirebaseFirestore.getInstance().collection("Products")
+                .document(uid)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful() || task.getResult() == null) {
+                        Log.e("Firestore", "Failed to get product");
+                        imageView.setImageResource(R.drawable.baseline_image_not_supported_24);
+                        return;
+                    }
 
-        final File file;
-        try {
-            file = File.createTempFile("img", ".png");
-
-            storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    imageView.setImageBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    imageView.setImageResource(R.drawable.baseline_image_not_supported_24);
-                    Log.e("Image: " + image , e.getMessage());
-                }
-            });
-        } catch (IOException e) {
-            imageView.setImageResource(R.drawable.baseline_image_not_supported_24);
-            throw new RuntimeException(e);
-        }
+                    Product product = task.getResult().toObject(Product.class);
+                    if (product == null || product.getImageUrl() == null || product.getImageUrl().isEmpty()) {
+                        imageView.setImageResource(R.drawable.baseline_image_not_supported_24);
+                    } else {
+                        Picasso.get()
+                                .load(product.getImageUrl())
+                                .placeholder(R.drawable.loading_image)
+                                .error(R.drawable.baseline_image_not_supported_24)
+                                .into(imageView);
+                    }
+                });
     }
 
 }
