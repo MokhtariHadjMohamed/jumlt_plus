@@ -4,9 +4,12 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +31,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.hadjmohamed.oran_agro.models.Product;
 import com.hadjmohamed.oran_agro.models.ProductOrder;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,7 +39,8 @@ import java.io.IOException;
 public class ProductActivity extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseFirestore firestore;
-    private TextView productName, priceUnit, priceCarton, priceCarton02, quantity, numQuantity;
+    private TextView productName, priceUnit, priceCarton, priceCarton02, quantity;
+    private EditText numQuantity;
     private ImageView increase, decrease, productImage;
     private Button submit;
     private int qnt = 1;
@@ -66,6 +71,39 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         decrease.setOnClickListener(this);
         submit.setOnClickListener(this);
 
+        numQuantity.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String input = charSequence.toString();
+                if (!input.isEmpty()) {
+                    try {
+                        int enteredQuantity = Integer.parseInt(input);
+                        int availableQuantity = product.getQuantite();
+
+                        if (enteredQuantity > availableQuantity) {
+                            numQuantity.setError("Only " + availableQuantity + " items in stock");
+                            numQuantity.setText(String.valueOf(availableQuantity));
+                        } else {
+                            qnt = enteredQuantity;
+                        }
+
+                    } catch (NumberFormatException e) {
+                        numQuantity.setError("Invalid number");
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
         // ToolBar
         toolbar = findViewById(R.id.toolbarBack);
         setSupportActionBar(toolbar);
@@ -90,31 +128,49 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                             Log.e("Failed", "Failed");
 
                         product = task.getResult().toObject(Product.class);
-                        Log.d("TEXT:", product.getNameProduct());
                         productName.setText(product.getNameProduct());
                         priceCarton.setText(product.getPrixCarton() + "");
                         priceCarton02.setText(product.getPrixCarton() + "");
                         priceUnit.setText(product.getPrixUnitaire() + "");
                         quantity.setText(product.getQuantite() + "");
 
-                        retrieveImage(productImage, product.getNameProduct());
+                        if (product.getImageUrl().isEmpty())
+                            productImage.setImageResource(R.drawable.baseline_image_not_supported_24);
+                        else
+                            Picasso.get()
+                                    .load(product.getImageUrl())
+                                    .placeholder(R.drawable.loading_image)
+                                    .error(R.drawable.baseline_image_not_supported_24)
+                                    .into(productImage);
 
                         // toolbarName
                         toolbar.setTitle(product.getNameProduct());
+                        if (progressDialog.isShowing())
+                            progressDialog.dismiss();
                     }
                 });
     }
 
     @Override
     public void onClick(View view) {
+        int availableQuantity = product.getQuantite();
+
         if (view == increase) {
             qnt++;
-            numQuantity.setText(String.valueOf(qnt));
+            if (qnt > availableQuantity) {
+                numQuantity.setError("Only " + availableQuantity + " items in stock");
+                numQuantity.setText(String.valueOf(availableQuantity));
+            } else {
+                numQuantity.setText(String.valueOf(qnt));
+            }
         } else if (view == decrease) {
-            if (qnt == 1)
-                return;
             qnt--;
-            numQuantity.setText(String.valueOf(qnt));
+            if (qnt < 1){
+                qnt = 1;
+                numQuantity.setText(String.valueOf(qnt));
+            }else{
+                numQuantity.setText(String.valueOf(qnt));
+            }
         } else if (view == submit) {
             DocumentReference order = firestore.collection("ProductsOrder").document();
             Toast.makeText(this, "added: " + product.getNameProduct(), Toast.LENGTH_SHORT).show();
@@ -130,36 +186,6 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         } else if (view == btnGoBack) {
             startActivity(new Intent(ProductActivity.this, HomePageActivity.class));
             finish();
-        }
-    }
-
-    private void retrieveImage(ImageView imageView, String image) {
-        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
-        StorageReference storageReference = firebaseStorage.getReference().child("Image")
-                .child(image + ".png");
-
-        final File file;
-        try {
-            file = File.createTempFile("img", "png");
-            storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    if (progressDialog.isShowing())
-                        progressDialog.dismiss();
-                    imageView.setImageBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    if (progressDialog.isShowing())
-                        progressDialog.dismiss();
-                    imageView.setImageResource(R.drawable.baseline_image_not_supported_24);
-                    Log.e("Image: " + image , e.getMessage());
-                }
-            });
-        } catch (IOException e) {
-            imageView.setImageResource(R.drawable.baseline_image_not_supported_24);
-            throw new RuntimeException(e);
         }
     }
 }

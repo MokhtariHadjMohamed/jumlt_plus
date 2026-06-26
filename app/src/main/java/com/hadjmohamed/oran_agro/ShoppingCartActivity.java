@@ -104,7 +104,7 @@ public class ShoppingCartActivity extends AppCompatActivity implements RecViewIn
         for (ProductOrder o : productOrders){
             if (Objects.equals(o.getOrderSituation(), "في انتظار شحن"))
                 po.add(o);
-            total =+ o.getProductPrice();
+            total += (o.getProductPrice() * o.getQuantity());
         }
         DocumentReference order = firestore.collection("Orders").document();
         order.set(new Order(order.getId(),
@@ -148,6 +148,10 @@ public class ShoppingCartActivity extends AppCompatActivity implements RecViewIn
                             productOrderList.add(dc.toObject(ProductOrder.class));
 
                         adapterRecOrders.notifyDataSetChanged();
+
+                        if (productOrderList.isEmpty())
+                            submit.setClickable(false);
+
                         if (progressDialog.isShowing())
                             progressDialog.dismiss();
                     }

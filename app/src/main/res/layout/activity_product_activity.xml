@@ -26,12 +26,13 @@
                 app:layout_constraintStart_toEndOf="@+id/numQuantityProductActivity"
                 app:layout_constraintTop_toTopOf="@+id/numQuantityProductActivity" />
 
-            <TextView
+            <EditText
                 android:id="@+id/numQuantityProductActivity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="1"
+                android:inputType="number"
                 android:textColor="@color/orangeMy"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="@+id/addProductActivity"
